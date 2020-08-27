@@ -389,7 +389,6 @@ object RunningManage {
                     it.write(scanner.nextLine())
                     it.newLine()
                     it.flush()
-                    print("> ")
                 }
             }
         }
