@@ -386,10 +386,10 @@ object RunningManage {
             }.start()
             process.outputStream.bufferedWriter().also {
                 while (scanner.hasNext()) {
-                    print("> ")
                     it.write(scanner.nextLine())
                     it.newLine()
                     it.flush()
+                    print("> ")
                 }
             }
         }
