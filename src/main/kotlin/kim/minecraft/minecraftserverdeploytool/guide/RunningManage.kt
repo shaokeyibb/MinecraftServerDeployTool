@@ -375,6 +375,9 @@ object RunningManage {
         Runtime.getRuntime().exec(
             runCommand, null, File(tempSettings["CoreFileSavedDir"]!!)
         ).also { process ->
+            Runtime.getRuntime().addShutdownHook(Thread {
+                process.destroyForcibly()
+            })
             Thread {
                 process.inputStream.bufferedReader(Charset.defaultCharset()).lines().forEach(::println)
             }.start()
@@ -383,6 +386,7 @@ object RunningManage {
             }.start()
             process.outputStream.bufferedWriter().also {
                 while (scanner.hasNext()) {
+                    print("> ")
                     it.write(scanner.nextLine())
                     it.newLine()
                     it.flush()
