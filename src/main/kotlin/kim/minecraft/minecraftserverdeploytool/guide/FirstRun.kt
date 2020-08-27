@@ -111,7 +111,7 @@ class FirstRun {
                 val saveDir = scanner.nextLine().takeIf { it.isNotEmpty() } ?: ".\\"
                 print("请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
                 val fileName = scanner.nextLine().takeIf { it.isNotEmpty() }
-                println("是否使用BMCLAPI/MCBBS镜像源下载资源文件，是请填写mcbbs或bmclapi，否请输入no，留空使用MCBBS镜像源")
+                println("是否使用BMCLAPI/MCBBS镜像源下载资源文件，是请填写mcbbs或bmclapi，否请输入no，留空使用MCBBS镜像源: ")
                 val fastModeRaw = scanner.nextLine()
                 val fastMode = if (fastModeRaw.equals(
                         "mcbbs",
@@ -137,7 +137,7 @@ class FirstRun {
                 val saveDir = scanner.nextLine().takeIf { it.isNotEmpty() } ?: ".\\"
                 print("请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
                 val fileName = scanner.nextLine().takeIf { it.isNotEmpty() }
-                print("请选择使用的镜像源（MCBBS/BMCLAPI），留空使用MCBBS镜像源")
+                print("请选择使用的镜像源（MCBBS/BMCLAPI），留空使用MCBBS镜像源: ")
                 val fastModeRaw = scanner.nextLine()
                 val fastMode = if (fastModeRaw.equals(
                         "mcbbs",
@@ -156,7 +156,7 @@ class FirstRun {
                 val saveDir = scanner.nextLine().takeIf { it.isNotEmpty() } ?: ".\\"
                 print("请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
                 val fileName = scanner.nextLine().takeIf { it.isNotEmpty() }
-                print("请选择使用的镜像源（MCBBS/BMCLAPI），留空使用MCBBS镜像源")
+                print("请选择使用的镜像源（MCBBS/BMCLAPI），留空使用MCBBS镜像源: ")
                 val fastModeRaw = scanner.nextLine()
                 val fastMode = if (fastModeRaw.equals(
                         "mcbbs",
@@ -193,7 +193,7 @@ class FirstRun {
                 val saveDir = scanner.nextLine().takeIf { it.isNotEmpty() } ?: ".\\"
                 print("请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
                 val fileName = scanner.nextLine().takeIf { it.isNotEmpty() }
-                print("请选择使用的镜像源（MCBBS/BMCLAPI），留空使用MCBBS镜像源")
+                print("请选择使用的镜像源（MCBBS/BMCLAPI），留空使用MCBBS镜像源: ")
                 val fastModeRaw = scanner.nextLine()
                 val fastMode = if (fastModeRaw.equals(
                         "mcbbs",
@@ -210,7 +210,7 @@ class FirstRun {
                 val saveDir = scanner.nextLine().takeIf { it.isNotEmpty() } ?: ".\\"
                 print("请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
                 val fileName = scanner.nextLine().takeIf { it.isNotEmpty() }
-                print("请选择使用的镜像源（MCBBS/BMCLAPI），留空使用MCBBS镜像源")
+                print("请选择使用的镜像源（MCBBS/BMCLAPI），留空使用MCBBS镜像源: ")
                 val fastModeRaw = scanner.nextLine()
                 val fastMode = if (fastModeRaw.equals(
                         "mcbbs",

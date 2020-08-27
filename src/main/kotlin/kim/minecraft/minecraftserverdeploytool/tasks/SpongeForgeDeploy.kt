@@ -61,7 +61,7 @@ class SpongeForgeDeploy(
         Runtime.getRuntime().exec(
             "java -jar \"${forgeInstaller.absolutePath}\" -installServer", null,
             File(saveDir)
-        ).inputStream.bufferedReader().lines().forEach { println(it) }
+        )
         forgeInstaller.parentFile.deleteFile()
         File(saveDir, "forge-installer.jar.log").delete()
         println("安装完成")
