@@ -36,9 +36,10 @@ class JenkinsCIUtil(
         ).getJSONArray("artifacts")
     }
 
-    fun getFileName(index: Int, buildID: String) = getArtifacts(buildID).getJSONObject(index).getString("fileName")
+    fun getFileName(index: Int, buildID: String): String =
+        getArtifacts(buildID).getJSONObject(index).getString("fileName")
 
-    fun getFileName(index: Int) = getArtifacts().getJSONObject(index).getString("fileName")
+    fun getFileName(index: Int): String = getArtifacts().getJSONObject(index).getString("fileName")
 
     fun download(index: Int, saveDir: String) {
         val artifacts = getArtifacts()

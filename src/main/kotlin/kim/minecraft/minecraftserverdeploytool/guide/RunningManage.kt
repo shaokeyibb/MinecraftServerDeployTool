@@ -2,10 +2,11 @@ package kim.minecraft.minecraftserverdeploytool.guide
 
 import kim.minecraft.minecraftserverdeploytool.tasks.*
 import kim.minecraft.minecraftserverdeploytool.utils.BMCLAPIUtil
+import kim.minecraft.minecraftserverdeploytool.utils.PaperMCUtil
 import java.io.File
 import java.util.*
 
-class FirstRun {
+object RunningManage {
 
     private val settings: File = File("MCSDTSettings", "settings.yml")
 
@@ -114,7 +115,13 @@ class FirstRun {
             "Paper" -> {
                 print("请输入您欲下载的服务端核心游戏版本，留空即为下载最新版本: ")
                 val version = scanner.nextLine().takeIf { it.isNotEmpty() }
-                print("请输入您欲下载的服务端核心构建版本，留空即为下载最新构建:  ")
+                PaperMCUtil(PaperMCUtil.Project.PAPER).also { paperMCUtil ->
+                    print("可用构建版本列表: ")
+                    paperMCUtil.getBuildIDs(version ?: paperMCUtil.latestMinecraftVersion).forEach {
+                        print("$it ")
+                    }
+                }
+                print("\n请输入您欲下载的服务端核心构建版本，留空即为下载最新构建:  ")
                 val build = scanner.nextLine().takeIf { it.isNotEmpty() }
                 print("请输入您欲部署到的目录，留空即为当前目录: ")
                 val saveDir = scanner.nextLine().takeIf { it.isNotEmpty() } ?: ".\\"
