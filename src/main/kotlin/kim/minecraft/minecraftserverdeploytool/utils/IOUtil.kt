@@ -62,18 +62,24 @@ object IOUtil {
         return URL(url).readText()
     }
 
-    @Deprecated(message = "doGet()和downloadByHTTPConn()均已支持自动重定向，无需再使用本函数", level = DeprecationLevel.WARNING)
-    fun getRedirectUrl(url: String): String {
-        val u = URL(url)
+    fun getRedirectUrl(url: String, requestProperty: Map<String, String>?): String {
+        val builder = StringBuilder()
+        var count = 0
+        requestProperty?.asIterable()?.forEach {
+            if (count == 0) builder.append("?") else builder.append("&")
+            builder.append(it.key + "=" + it.value)
+            count++
+        }
+        val u = URL(url + builder.toString())
         val conn = u.openConnection() as HttpURLConnection
         conn.instanceFollowRedirects = false
         conn.connectTimeout = 5000
         val redirect = conn.getHeaderField("Location")
         return if (redirect != null) {
             if (!redirect.startsWith("http", true)) {
-                getRedirectUrl(u.toURI().resolve(redirect).toURL().toString())
+                getRedirectUrl(u.toURI().resolve(redirect).toURL().toString(), null)
             } else {
-                getRedirectUrl(redirect)
+                getRedirectUrl(redirect, null)
             }
         } else {
             u.toString()
@@ -99,20 +105,6 @@ object IOUtil {
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36"
         )
         return conn.inputStream.bufferedReader().use(BufferedReader::readText)
-    }
-
-    fun File.deleteFile(): Boolean {
-        if (!this.exists()) {
-            return false
-        }
-        if (this.isFile) {
-            return this.delete()
-        } else {
-            for (file in this.listFiles()!!) {
-                file.deleteFile()
-            }
-        }
-        return this.delete()
     }
 
 }

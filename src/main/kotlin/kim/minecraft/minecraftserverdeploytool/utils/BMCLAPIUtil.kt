@@ -30,18 +30,20 @@ class BMCLAPIUtil(private val source: Src) {
         fileName: String?
     ) {
         val ver = version ?: getLatestForgeVersion(mcVersion)
-        val cat = category?: "installer"
+        val cat = category ?: "installer"
         val form = format ?: "jar"
         IOUtil.downloadByHTTPConn(
-            source.link + "/forge/download",
+            IOUtil.getRedirectUrl(
+                source.link + "/forge/download", mapOf(
+                    Pair("mcversion", mcVersion),
+                    Pair("version", ver),
+                    Pair("category", cat),
+                    Pair("format", form)
+                )
+            ),
             saveDir,
             fileName ?: getOriginalForgeFileName(mcVersion, ver, cat, form),
-            mapOf(
-                Pair("mcversion", mcVersion),
-                Pair("version", ver),
-                Pair("category", cat),
-                Pair("format", form)
-            )
+            null
         )
     }
 
@@ -56,7 +58,7 @@ class BMCLAPIUtil(private val source: Src) {
 
     fun downloadServer(version: String, saveDir: String, fileName: String?) =
         IOUtil.downloadByHTTPConn(
-            getServerDownloadLink(version),
+            IOUtil.getRedirectUrl(getServerDownloadLink(version), null),
             saveDir,
             fileName ?: getOriginalServerFileName(version),
             null

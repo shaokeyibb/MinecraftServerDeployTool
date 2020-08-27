@@ -3,7 +3,6 @@ package kim.minecraft.minecraftserverdeploytool.tasks
 import com.alibaba.fastjson.JSONObject
 import kim.minecraft.minecraftserverdeploytool.utils.BMCLAPIUtil
 import kim.minecraft.minecraftserverdeploytool.utils.IOUtil
-import kim.minecraft.minecraftserverdeploytool.utils.IOUtil.deleteFile
 import java.io.File
 import java.io.FileInputStream
 import java.nio.charset.Charset
@@ -52,7 +51,7 @@ class VanillaForgeDeploy(
                 builder.append(fastMode.link).append("/maven/").append(path)
                 println("正在从 $fastMode 镜像源加速下载资源文件 ${lib.getString("name")}")
                 IOUtil.downloadByNIO2(
-                    builder.toString(),
+                    IOUtil.getRedirectUrl(builder.toString(), null),
                     (saveDir + File.separator + "libraries" + File.separator + path).substringBeforeLast("/")
                         .replace("/", File.separator),
                     path.substringAfterLast("/")
@@ -64,9 +63,10 @@ class VanillaForgeDeploy(
             "java -jar \"${forgeInstaller.absolutePath}\" -installServer", null,
             File(saveDir)
         ).waitFor()
-        forgeInstaller.parentFile.deleteFile()
-        File(saveDir, "$installerName.log").delete()
         println("安装完成")
+        println("清理临时文件")
+        File(saveDir, cacheDir).deleteRecursively()
+        File(saveDir, "$installerName.log").delete()
         return "forge-$version-$forgeVersion.jar"
     }
 }
