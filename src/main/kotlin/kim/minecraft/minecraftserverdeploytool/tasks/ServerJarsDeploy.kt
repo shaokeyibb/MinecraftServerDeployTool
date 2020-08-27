@@ -9,7 +9,7 @@ interface ServerJarsDeploy : Task {
     val saveDir: String
     val fileName: String?
 
-    override fun run() {
+    override fun run(): String {
         val mirror = ServerJarsUtil(type)
         val version = version ?: mirror.getLatestDownloadMinecraftVersion()
         val fileName = fileName ?: mirror.getDownloadFileName(version)
@@ -17,6 +17,7 @@ interface ServerJarsDeploy : Task {
         mirror.download(version, saveDir, fileName)
         println("下载完成")
         additionAction()
+        return fileName
     }
 
     fun additionAction() {}

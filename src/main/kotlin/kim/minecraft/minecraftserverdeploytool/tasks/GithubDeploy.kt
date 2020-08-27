@@ -9,15 +9,17 @@ interface GithubDeploy : Task {
     val name: String
     val saveDir: String
     val fileName: String?
-    val index : Int?
-    override fun run() {
-        val github = GithubUtil(author,repo)
-        val index = index?:0
+    val index: Int?
+    override fun run(): String {
+        val github = GithubUtil(author, repo)
+        val index = index ?: 0
         val fileName = fileName ?: github.getLatestReleaseDownloadFileName(index)
         println("开始下载$name，版本" + github.getLatestReleaseTagName())
-        IOUtil.downloadByHTTPConn(github.getLatestReleaseDownloadLink(index), saveDir, fileName,null)
+        IOUtil.downloadByHTTPConn(github.getLatestReleaseDownloadLink(index), saveDir, fileName, null)
         println("下载完成")
         additionAction()
+        return fileName
     }
-    fun additionAction(){}
+
+    fun additionAction() {}
 }

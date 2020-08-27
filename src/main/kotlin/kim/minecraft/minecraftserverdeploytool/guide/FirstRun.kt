@@ -15,7 +15,16 @@ class FirstRun {
 
     private fun checkIfFirstRun(): Boolean = !settings.exists()
 
-    fun init() = if (checkIfFirstRun()) firstRun() else commonRun()
+    fun initWithTry() {
+        try {
+            init()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            println("服务端部署失败，因为" + e.localizedMessage)
+        }
+    }
+
+    private fun init() = if (checkIfFirstRun()) firstRun() else commonRun()
 
     private fun firstRun() {
         println("检测到第一次运行，启动初始化引导程序......")

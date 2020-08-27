@@ -3,7 +3,6 @@ package kim.minecraft.minecraftserverdeploytool.utils
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 import java.nio.file.Files
@@ -14,14 +13,10 @@ import java.nio.file.StandardCopyOption
 object IOUtil {
 
     fun downloadByNIO2(url: String, saveDir: String, fileName: String) {
-        try {
-            URL(url).openStream().use { ins ->
-                val target = Paths.get(saveDir, fileName)
-                Files.createDirectories(target.parent)
-                Files.copy(ins, target, StandardCopyOption.REPLACE_EXISTING)
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
+        URL(url).openStream().use { ins ->
+            val target = Paths.get(saveDir, fileName)
+            Files.createDirectories(target.parent)
+            Files.copy(ins, target, StandardCopyOption.REPLACE_EXISTING)
         }
     }
 
@@ -43,7 +38,6 @@ object IOUtil {
             "User-agent",
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36"
         )
-        try {
             conn.inputStream.buffered().use { inputStream ->
                 FileOutputStream(
                     File(
@@ -62,18 +56,13 @@ object IOUtil {
                     }
                 }
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
     }
 
-    @Throws(Exception::class)
     fun doSimpleGet(url: String): String {
         return URL(url).readText()
     }
 
     @Deprecated(message = "doGet()和downloadByHTTPConn()均已支持自动重定向，无需再使用本函数", level = DeprecationLevel.WARNING)
-    @Throws(Exception::class)
     fun getRedirectUrl(url: String): String {
         val u = URL(url)
         val conn = u.openConnection() as HttpURLConnection
@@ -119,7 +108,7 @@ object IOUtil {
         if (this.isFile) {
             return this.delete()
         } else {
-            for (file in this.listFiles()) {
+            for (file in this.listFiles()!!) {
                 file.deleteFile()
             }
         }

@@ -13,7 +13,7 @@ class PaperDeploy(
 ) :
     Task {
 
-    override fun run() {
+    override fun run(): String {
         val paper = PaperMCUtil(PaperMCUtil.Project.PAPER)
         val version = version ?: paper.latestMinecraftVersion
         val buildID = buildID ?: paper.getLatestBuild(version)
@@ -26,6 +26,7 @@ class PaperDeploy(
             BMCLAPIUtil(fastMode).downloadServer(version, File(saveDir, "cache").absolutePath, "mojang_$version.jar")
             println("下载完成")
         }
+        return fileName
     }
 
 }

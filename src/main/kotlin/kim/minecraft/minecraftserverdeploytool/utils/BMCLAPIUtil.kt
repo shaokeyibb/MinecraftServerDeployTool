@@ -52,7 +52,7 @@ class BMCLAPIUtil(private val source: Src) {
         format: String
     ) = "forge-$mcVersion-$version-$category.$format"
 
-    private fun getOriginalServerFileName(version: String): String = "minecraft_server.$version.jar"
+    fun getOriginalServerFileName(version: String): String = "minecraft_server.$version.jar"
 
     fun downloadServer(version: String, saveDir: String, fileName: String?) =
         IOUtil.downloadByHTTPConn(

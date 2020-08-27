@@ -17,7 +17,7 @@ class SpongeForgeDeploy(
     private val fastMode: BMCLAPIUtil.Src,
     private val cacheDir: String?
 ) : Task {
-    override fun run() {
+    override fun run(): String {
         println("开始部署SpongeForge")
         val bmclapi = BMCLAPIUtil(fastMode)
         println("步骤1/4: 开始从 $fastMode 镜像源加速下载Vanilla，版本$version")
@@ -26,13 +26,14 @@ class SpongeForgeDeploy(
         val forgeVersion = bmclapi.getLatestForgeVersion(version)
         val cacheDir = cacheDir ?: "temp"
         println("步骤2/4: 开始从 $fastMode 镜像源加速下载Forge，版本$forgeVersion")
+        val installerName = "forge-installer.jar"
         bmclapi.downloadForge(
             version, forgeVersion, null, null,
-            saveDir + File.separator + cacheDir, "forge-installer.jar"
+            saveDir + File.separator + cacheDir, installerName
         )
         println("下载完成")
         println("步骤3/4: 安装Forge")
-        val forgeInstaller = File(saveDir + File.separator + cacheDir, "forge-installer.jar")
+        val forgeInstaller = File(saveDir + File.separator + cacheDir, installerName)
         val zip = ZipInputStream(FileInputStream(forgeInstaller), Charset.forName("UTF-8"))
         var zipEntry = zip.nextEntry
         while (zipEntry != null) {
@@ -58,12 +59,13 @@ class SpongeForgeDeploy(
                 )
             }
         }
+        println("正在尝试运行Forge安装程序")
         Runtime.getRuntime().exec(
             "java -jar \"${forgeInstaller.absolutePath}\" -installServer", null,
             File(saveDir)
-        )
+        ).waitFor()
         forgeInstaller.parentFile.deleteFile()
-        File(saveDir, "forge-installer.jar.log").delete()
+        File(saveDir, "$installerName.log").delete()
         println("安装完成")
         println("步骤4/4: 下载SpongeForge")
         object : GithubDeploy {
@@ -74,5 +76,6 @@ class SpongeForgeDeploy(
             override val fileName: String? = null
             override val index: Int? = 1
         }.run()
+        return "forge-$version-$forgeVersion.jar"
     }
 }
