@@ -1,6 +1,7 @@
 package kim.minecraft.minecraftserverdeploytool.tasks
 
 import kim.minecraft.minecraftserverdeploytool.utils.ServerJarsUtil
+import java.io.File
 
 interface ServerJarsDeploy : Task {
     val type: String
@@ -9,7 +10,7 @@ interface ServerJarsDeploy : Task {
     val saveDir: String
     val fileName: String?
 
-    override fun run(): String {
+    override fun run(): File {
         val mirror = ServerJarsUtil(type)
         val version = version ?: mirror.getLatestDownloadMinecraftVersion()
         val fileName = fileName ?: mirror.getDownloadFileName(version)
@@ -17,7 +18,7 @@ interface ServerJarsDeploy : Task {
         mirror.download(version, saveDir, fileName)
         println("下载完成")
         additionAction()
-        return fileName
+        return File(saveDir, fileName)
     }
 
     fun additionAction() {}

@@ -1,6 +1,7 @@
 package kim.minecraft.minecraftserverdeploytool.tasks
 
 import kim.minecraft.minecraftserverdeploytool.utils.LegacyJenkinsCIUtil
+import java.io.File
 
 interface LegacyJenkinsCIDeploy : Task {
     val baseLink: String
@@ -10,7 +11,7 @@ interface LegacyJenkinsCIDeploy : Task {
     val saveDir: String
     val fileName: String?
     val index: Int?
-    override fun run(): String {
+    override fun run(): File {
         val ci = LegacyJenkinsCIUtil(baseLink, repo)
         val ind = index ?: 0
         val buildID = buildID ?: ci.getLatestBuild()
@@ -19,7 +20,7 @@ interface LegacyJenkinsCIDeploy : Task {
         ci.download(ind, buildID, saveDir, fileName)
         println("下载完成")
         additionAction()
-        return fileName
+        return File(saveDir, fileName)
     }
 
     fun additionAction() {}

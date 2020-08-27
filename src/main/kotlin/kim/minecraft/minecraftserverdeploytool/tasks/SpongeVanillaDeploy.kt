@@ -16,7 +16,7 @@ class SpongeVanillaDeploy(
     private val fastMode: BMCLAPIUtil.Src,
     private val cacheDir: String?
 ) : Task {
-    override fun run(): String {
+    override fun run(): File {
         println("开始部署SpongeVanilla")
         val bmclapi = BMCLAPIUtil(fastMode)
         println("步骤1/4: 开始从 $fastMode 镜像源加速下载Vanilla，版本$version")
@@ -76,6 +76,6 @@ class SpongeVanillaDeploy(
         println("清理临时文件")
         File(saveDir, cacheDir).deleteRecursively()
         File(saveDir, "$installerName.log").delete()
-        return "forge-$version-$forgeVersion.jar"
+        return File(saveDir, "forge-$version-$forgeVersion.jar")
     }
 }
