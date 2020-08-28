@@ -36,13 +36,16 @@ object RunningManage {
         }
     }
 
-    private val latestVersion: String = GitHubUtil("shaokeyibb", "MinecraftServerDeployTool").getLatestReleaseTagName()
-
     private fun checkUpdate() {
-        if (latestVersion == Main.version) {
-            println("您正在使用最新的发行版本「${Main.version}」，无需更新")
-        } else {
-            println("您正在使用过时的发行版本「${Main.version}」，当前最新版本是「${latestVersion}")
+        try {
+            val latestVersion: String = GitHubUtil("shaokeyibb", "MinecraftServerDeployTool").getLatestReleaseTagName()
+            if (latestVersion == Main.version) {
+                println("您正在使用最新的发行版本「${Main.version}」，无需更新")
+            } else {
+                println("您正在使用过时的发行版本「${Main.version}」，当前最新版本是「${latestVersion}")
+            }
+        } catch (e: java.lang.Exception) {
+            println("由于 ${e.localizedMessage} ，检查更新失败")
         }
     }
 
