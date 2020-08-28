@@ -1,7 +1,7 @@
 # MinecraftServerDeployTool
 自动化 Minecraft 服务端部署工具/开服器 By Helan_XingChen
 
-![](https://img.shields.io/badge/license-GNU--3.0-orange)
+![](https://img.shields.io/badge/license-GPL--3.0-orange)
 > 本工具无法自动下载 Java，因为本工具就是 Java 做的，因此请务必安装好 Java 再使用
 
 ## 特点
