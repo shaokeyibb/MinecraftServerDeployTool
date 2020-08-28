@@ -2,6 +2,7 @@ package kim.minecraft.minecraftserverdeploytool.guide
 
 import kim.minecraft.minecraftserverdeploytool.tasks.*
 import kim.minecraft.minecraftserverdeploytool.utils.BMCLAPIUtil
+import kim.minecraft.minecraftserverdeploytool.utils.IOUtil
 import kim.minecraft.minecraftserverdeploytool.utils.PaperMCUtil
 import org.yaml.snakeyaml.Yaml
 import java.io.File
@@ -12,6 +13,9 @@ import java.util.*
 import kotlin.system.exitProcess
 
 object RunningManage {
+
+    private val broadcast: String =
+        IOUtil.doSimpleGet("https://raw.githubusercontent.com/shaokeyibb/MinecraftServerDeployTool/master/broadcast")
 
     private val settings: File = File("MCSDTSettings", "settings.yml")
 
@@ -30,7 +34,10 @@ object RunningManage {
         }
     }
 
-    fun init() = if (checkIfFirstRun()) firstRunWithTry() else commonRun()
+    fun init() {
+        println(broadcast)
+        if (checkIfFirstRun()) firstRunWithTry() else commonRun()
+    }
 
     private fun firstRun() {
         println("检测到第一次运行，启动初始化引导程序......")
