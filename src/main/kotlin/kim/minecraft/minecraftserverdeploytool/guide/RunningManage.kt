@@ -390,8 +390,10 @@ object RunningManage {
                     it.newLine()
                     it.flush()
                 }
+                it.close()
             }
         }
+        println("服务端已关闭")
     }
 
     private fun saveSettings() {
