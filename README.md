@@ -52,7 +52,7 @@
 
 ## 开源地址 Open-Source
 
-[GitHub](https://github.com/shaokeyibb/MinecraftServerDeployTool) open-source by GNU Public License V3
+[GitHub](https://github.com/shaokeyibb/MinecraftServerDeployTool) open-source under GNU Public License V3
 
 ## 已知问题 Known Problems
 
