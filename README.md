@@ -66,6 +66,6 @@
 
   本工具使用了 BMCLAPI，ServerJarsAPI，JenkinsCIAPI，GithubAPI 以读取和下载文件
 
-## 最后 LATEST
+## 最后 Latest
 
 如果您觉得我写的还行，那么请千万不要吝惜您的金粒和人气以及 Star，还有回复哦
