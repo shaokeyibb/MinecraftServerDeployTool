@@ -405,7 +405,7 @@ object RunningManage {
                     tempSettings["CoreFileSavedDir"],
                     tempSettings["CoreFileName"]!!
                 ).absolutePath
-            } -nogui ${tempSettings["LastArgs"]}"
+            } nogui ${tempSettings["LastArgs"]}"
         println("正在以「$runCommand」为命令开启服务器，服务端类型为${tempSettings["CoreName"]}")
         Runtime.getRuntime().exec(
             runCommand, null, File(tempSettings["CoreFileSavedDir"]!!)
