@@ -2,7 +2,7 @@ package kim.minecraft.minecraftserverdeploytool.utils
 
 import com.alibaba.fastjson.JSONObject
 
-class GithubUtil(author: String, repo: String) {
+class GitHubUtil(author: String, repo: String) {
 
     private val json: JSONObject =
         JSONObject.parseObject(IOUtil.doSimpleGet("https://api.github.com/repos/$author/$repo/releases/latest"))

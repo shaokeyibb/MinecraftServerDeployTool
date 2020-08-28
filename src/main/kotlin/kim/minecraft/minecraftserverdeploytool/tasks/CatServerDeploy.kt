@@ -4,7 +4,7 @@ class CatServerDeploy(
     override val saveDir: String,
     override val fileName: String?
 
-) : GithubDeploy {
+) : GitHubDeploy {
     override val author: String = "Luohuayu"
     override val repo: String = "CatServer"
     override val name: String = "CatServer"
