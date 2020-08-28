@@ -16,9 +16,6 @@ import kotlin.system.exitProcess
 
 object RunningManage {
 
-    private val broadcast: String =
-        IOUtil.doSimpleGet("https://raw.githubusercontent.com/shaokeyibb/MinecraftServerDeployTool/master/broadcast")
-
     private val settings: File = File("MCSDTSettings", "settings.yml")
 
     private val scanner = Scanner(System.`in`)
@@ -49,10 +46,17 @@ object RunningManage {
         }
     }
 
+    private fun sendBroadcast() {
+        try {
+            println(IOUtil.doSimpleGet("https://raw.githubusercontent.com/shaokeyibb/MinecraftServerDeployTool/master/broadcast"))
+        } catch (e: java.lang.Exception) {
+            println("由于 ${e.localizedMessage} ，获取公告失败")
+        }
+    }
 
     fun init() {
         checkUpdate()
-        println(broadcast)
+        sendBroadcast()
         if (checkIfFirstRun()) firstRunWithTry() else commonRun()
     }
 
