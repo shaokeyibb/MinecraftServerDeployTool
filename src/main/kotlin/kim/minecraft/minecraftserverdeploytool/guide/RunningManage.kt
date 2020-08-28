@@ -1,7 +1,9 @@
 package kim.minecraft.minecraftserverdeploytool.guide
 
+import kim.minecraft.minecraftserverdeploytool.Main
 import kim.minecraft.minecraftserverdeploytool.tasks.*
 import kim.minecraft.minecraftserverdeploytool.utils.BMCLAPIUtil
+import kim.minecraft.minecraftserverdeploytool.utils.GitHubUtil
 import kim.minecraft.minecraftserverdeploytool.utils.IOUtil
 import kim.minecraft.minecraftserverdeploytool.utils.PaperMCUtil
 import org.yaml.snakeyaml.Yaml
@@ -34,7 +36,19 @@ object RunningManage {
         }
     }
 
+    private val latestVersion: String = GitHubUtil("shaokeyibb", "MinecraftServerDeployTool").getLatestReleaseTagName()
+
+    private fun checkUpdate() {
+        if (latestVersion == Main.version) {
+            println("您正在使用最新的发行版本「${Main.version}」，无需更新")
+        } else {
+            println("您正在使用过时的发行版本「${Main.version}」，当前最新版本是「${latestVersion}")
+        }
+    }
+
+
     fun init() {
+        checkUpdate()
         println(broadcast)
         if (checkIfFirstRun()) firstRunWithTry() else commonRun()
     }
