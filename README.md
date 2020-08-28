@@ -64,7 +64,7 @@
 
   本工具发行文件中包含了 FastJson，KotlinStd，Zip4J 等实用工具以增加开发效率
 
-  本工具使用了 BMCLAPI，ServerJarsAPI，JenkinsCIAPI，GithubAPI 以读取和下载文件
+  本工具使用了 BMCLAPI，ServerJarsAPI，JenkinsCIAPI，GitHubAPI 以读取和下载文件
 
 ## 最后 Latest
 
