@@ -1,6 +1,6 @@
 package kim.minecraft.minecraftserverdeploytool.tasks
 
-import kim.minecraft.minecraftserverdeploytool.utils.GithubUtil
+import kim.minecraft.minecraftserverdeploytool.utils.GitHubUtil
 import kim.minecraft.minecraftserverdeploytool.utils.IOUtil
 import net.lingala.zip4j.ZipFile
 import java.io.File
@@ -9,13 +9,13 @@ class ContigoDeploy(
     override val saveDir: String,
     override val fileName: String?
 
-) : GithubDeploy {
+) : GitHubDeploy {
     override val author: String = "djoveryde"
     override val repo: String = "Contigo"
     override val name: String = "Contigo"
     override val index: Int? = 0
     override fun additionAction() {
-        val github = GithubUtil("djoveryde","Contigo")
+        val github = GitHubUtil("djoveryde","Contigo")
         val ind = 1
         val fileNa = github.getLatestReleaseDownloadFileName(ind)
         println("开始下载资源文件，版本${github.getLatestReleaseTagName()}")

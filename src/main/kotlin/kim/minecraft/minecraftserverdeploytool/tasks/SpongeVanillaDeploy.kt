@@ -65,7 +65,7 @@ class SpongeVanillaDeploy(
         ).waitFor()
         println("安装完成")
         println("步骤4/4: 下载SpongeVanilla")
-        object : GithubDeploy {
+        object : GitHubDeploy {
             override val author: String = "SpongePowered"
             override val repo: String = "SpongeVanilla"
             override val name: String = "SpongeVanilla"
