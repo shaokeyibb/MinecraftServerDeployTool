@@ -48,16 +48,23 @@ object RunningManage {
 
     private fun selectServerCore() {
         print("可部署核心列表: ")
-        ServersManage.Servers.values().forEach { print("${it.name}  ") }
-        print("\n接下来，请选择您希望部署的服务端核心名称: ")
+        val cores = ServersManage.Servers.values().toList()
+            .also { it.forEachIndexed { index, servers -> print("[${index + 1}]${servers.name} ") } }
+        print("\n请选择您希望部署的服务端核心名称: ")
         val coreName = scanner.nextLine()
-        if (coreName !in ServersManage.Servers.values().groupBy { it.name }) {
+        val indexed = coreName.toIntOrNull()?.minus(1)
+        if ((coreName !in cores.groupBy { it.name }) && (indexed == null || indexed > ServersManage.Servers.values().size)) {
             println("输入有误，请检查大小写后重试，或指定服务端不支持部署")
             selectServerCore()
             return
         }
-        tempSettings["CoreName"] = coreName
-        println("您即将部署服务端 $coreName")
+        if (indexed != null) {
+            tempSettings["CoreName"] = cores[indexed].name
+        } else {
+            tempSettings["CoreName"] = ServersManage.Servers.valueOf(coreName).name
+        }
+
+        println("您即将部署服务端 ${tempSettings["CoreName"]}")
     }
 
     private fun deployServerCore() {
