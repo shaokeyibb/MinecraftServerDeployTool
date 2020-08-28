@@ -415,17 +415,36 @@ object RunningManage {
             })
             Thread {
                 process.inputStream.bufferedReader(Charset.defaultCharset()).lines().forEach(::println)
+                Thread.interrupted()
             }.start()
             Thread {
                 process.inputStream.bufferedReader(Charset.defaultCharset()).lines().forEach(::println)
+                Thread.interrupted()
             }.start()
+            Thread {
+                while (true) {
+                    if (!process.isAlive) {
+                        process.inputStream.close()
+                        process.errorStream.close()
+                        process.outputStream.close()
+                        process.destroyForcibly()
+                        Thread.interrupted()
+                        break
+                    }
+                }
+            }
             process.outputStream.bufferedWriter().also {
                 while (scanner.hasNext()) {
-                    it.write(scanner.nextLine())
+                    if (!process.isAlive) break
+                    val next = scanner.nextLine()
+                    if (next == "!exit") {
+                        process.destroyForcibly()
+                        break
+                    }
+                    it.write(next)
                     it.newLine()
                     it.flush()
                 }
-                it.close()
             }
         }
         println("服务端已关闭")
