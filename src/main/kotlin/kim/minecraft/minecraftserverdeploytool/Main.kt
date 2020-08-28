@@ -4,7 +4,7 @@ import kim.minecraft.minecraftserverdeploytool.guide.RunningManage
 
 object Main {
 
-    const val version = "1.1-SNAPSHOT"
+    const val version = "1.2-SNAPSHOT"
 
     @JvmStatic
     fun main(vararg args: String) {
