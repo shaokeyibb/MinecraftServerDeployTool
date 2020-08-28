@@ -4,7 +4,7 @@ class MohistDeploy(
     override val saveDir: String,
     override val fileName: String?
 
-) : GithubDeploy {
+) : GitHubDeploy {
     override val author: String = "Mohist-Community"
     override val repo: String = "Mohist"
     override val name: String = "Mohist"

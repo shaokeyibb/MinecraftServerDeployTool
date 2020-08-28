@@ -5,7 +5,7 @@ class ArclightDeploy(
     override val saveDir: String,
     override val fileName: String?
 
-) : GithubDeploy {
+) : GitHubDeploy {
     override val author: String = "IzzelAliz"
     override val repo: String = "Arclight"
     override val name: String = "Arclight-$version"
