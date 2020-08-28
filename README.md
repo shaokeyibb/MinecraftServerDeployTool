@@ -36,7 +36,8 @@
         Vanilla,
         VanillaForge
         
-## 相关截图(以部署 SpongeForge 为例) ScreenShot
+## 相关截图 ScreenShot
+> 以部署 SpongeForge 为例
 
 [![d5cyCR.md.png](https://s1.ax1x.com/2020/08/28/d5cyCR.md.png)](https://imgchr.com/i/d5cyCR)
 [![d5cr59.png](https://s1.ax1x.com/2020/08/28/d5cr59.png)](https://imgchr.com/i/d5cr59)
