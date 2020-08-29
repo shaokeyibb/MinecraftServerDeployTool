@@ -193,7 +193,7 @@ object RunningManage {
                 val saveDir = scanner.nextLine().takeIf { it.isNotEmpty() } ?: ".\\"
                 print("请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
                 val fileName = scanner.nextLine().takeIf { it.isNotEmpty() }
-                println("是否使用BMCLAPI/MCBBS镜像源下载资源文件，是请填写mcbbs或bmclapi，否请输入no，留空使用MCBBS镜像源: ")
+                print("是否使用BMCLAPI/MCBBS镜像源下载资源文件，是请填写mcbbs或bmclapi，否请输入no，留空使用MCBBS镜像源: ")
                 val fastModeRaw = scanner.nextLine()
                 val fastMode = if (fastModeRaw.equals(
                         "mcbbs",
@@ -239,7 +239,7 @@ object RunningManage {
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: ".\\"
                 }
             }
-            "SpongeVanillaDeploy" -> {
+            "SpongeVanilla" -> {
                 val normalVersion = "1.12.2"
                 print("请输入您欲下载的服务端核心游戏版本，留空即为下载 $normalVersion 版本: ")
                 val version = scanner.nextLine().takeIf { it.isNotEmpty() } ?: normalVersion
@@ -301,6 +301,31 @@ object RunningManage {
                     ) || fastModeRaw.isEmpty()
                 ) BMCLAPIUtil.Src.MCBBS else BMCLAPIUtil.Src.ORIGINAL
                 VanillaDeploy(version, saveDir, fileName, fastMode).runTask().also {
+                    tempSettings["CoreFileName"] = it.name
+                    tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: ".\\"
+                }
+            }
+            "VanillaFabric" -> {
+                val normalVersion = "1.16.2"
+                print("请输入您欲下载的服务端核心游戏版本，留空即为下载 $normalVersion 版本: ")
+                val version = scanner.nextLine().takeIf { it.isNotEmpty() } ?: normalVersion
+                print("请输入您欲部署到的目录，留空即为当前目录: ")
+                val saveDir = scanner.nextLine().takeIf { it.isNotEmpty() } ?: ".\\"
+                print("请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
+                val fileName = scanner.nextLine().takeIf { it.isNotEmpty() }
+                print("是否使用BMCLAPI/MCBBS镜像源下载资源文件，是请填写mcbbs或bmclapi，否请输入no，留空使用官方源: ")
+                val fastModeRaw = scanner.nextLine()
+                val fastMode = when {
+                    fastModeRaw.equals(
+                        "mcbbs",
+                        true
+                    ) -> BMCLAPIUtil.Src.MCBBS
+                    fastModeRaw.equals("bmclapi", true) -> BMCLAPIUtil.Src.ORIGINAL
+                    else -> null
+                }
+                print("请输入您欲部署的服务端资源临时目录，留空则使用默认名称: ")
+                val cacheDir = scanner.nextLine().takeIf { it.isNotEmpty() }
+                VanillaFabricDeploy(version, saveDir, fileName, fastMode, cacheDir).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: ".\\"
                 }
@@ -418,7 +443,7 @@ object RunningManage {
                 Thread.interrupted()
             }.start()
             Thread {
-                process.inputStream.bufferedReader(Charset.defaultCharset()).lines().forEach(::println)
+                process.errorStream.bufferedReader(Charset.defaultCharset()).lines().forEach(::println)
                 Thread.interrupted()
             }.start()
             Thread {

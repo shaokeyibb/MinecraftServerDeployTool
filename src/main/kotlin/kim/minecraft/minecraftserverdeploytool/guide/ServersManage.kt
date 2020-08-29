@@ -19,6 +19,7 @@ object ServersManage {
         Tuinity,
         Uranium,
         Vanilla,
+        VanillaFabric,
         VanillaForge
     }
 

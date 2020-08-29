@@ -20,7 +20,7 @@ class VanillaForgeDeploy(
         println("开始部署VanillaForge")
         val bmclapi = BMCLAPIUtil(fastMode)
         println("步骤1/3: 开始从 $fastMode 镜像源加速下载Vanilla，版本$version")
-        bmclapi.downloadServer(version, saveDir, fileName)
+        bmclapi.downloadServer(version, saveDir, null)
         println("下载完成")
         val forgeVersion = bmclapi.getLatestForgeVersion(version)
         val cacheDir = cacheDir ?: "temp"
@@ -67,6 +67,13 @@ class VanillaForgeDeploy(
         println("清理临时文件")
         File(saveDir, cacheDir).deleteRecursively()
         File(saveDir, "$installerName.log").delete()
-        return File(saveDir, "forge-$version-$forgeVersion.jar")
+        val end = File(saveDir, "forge-$version-$forgeVersion.jar")
+        if (!end.exists()) throw Exception("指定服务端文件不存在")
+        return if (fileName != null) {
+            end.renameTo(File(saveDir, fileName))
+            File(saveDir, fileName)
+        } else {
+            end
+        }
     }
 }
