@@ -18,7 +18,7 @@ object ConsoleUtil : Completer {
 
     val lineReader by lazy {
         LineReaderBuilder.builder()
-            .appName("")
+            .appName("MinecraftServerDeployTool")
             .option(LineReader.Option.DISABLE_EVENT_EXPANSION, true)
             .completer(this)
             .terminal(terminal)
