@@ -118,7 +118,7 @@ object RunningManage {
                 .mapIndexed { index, servers ->
                     "[${
                         (index + 1).toString() color MyColor(
-                            ColorMode.FG,
+                            ColorMode.FGBRIGHT,
                             Ansi.Color.BLUE
                         )
                     }]${servers.name} "
