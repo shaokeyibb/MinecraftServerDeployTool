@@ -7,7 +7,6 @@ import kim.minecraft.minecraftserverdeploytool.utils.ConsoleUtil.printf
 import kim.minecraft.minecraftserverdeploytool.utils.ConsoleUtil.readLine
 import org.yaml.snakeyaml.Yaml
 import java.io.File
-import java.nio.charset.Charset
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -179,21 +178,26 @@ object RunningManage {
                 }
             }
             "Paper" -> {
+                val paper = PaperMCUtil(PaperMCUtil.Project.PAPER)
+                paper.let { paperMCUtil ->
+                    paperMCUtil.getAllMinecraftVersions()
+                }.also { printf("可用游戏版本: " + it.joinToString(", ")) }
                 val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载最新版本: ")
-                        .takeIf { it.isNotEmpty() }
-                val versions = PaperMCUtil(PaperMCUtil.Project.PAPER).let { paperMCUtil ->
+                    .takeIf { it.isNotEmpty() }
+                val versions = paper.let { paperMCUtil ->
                     paperMCUtil.getBuildIDs(version ?: paperMCUtil.latestMinecraftVersion)
                 }.also { printf("可用构建版本: " + it.joinToString(", ")) }
                 val build = readLine(prefix = "请输入您欲下载的服务端核心构建版本，留空即为下载最新构建:  ") {
                     versions.map { it.toString() }
                 }.takeIf { it.isNotEmpty() }
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                        .takeIf { it.isNotEmpty() } ?: "./"
+                    .takeIf { it.isNotEmpty() } ?: "./"
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                        .takeIf { it.isNotEmpty() }
-                val fastModeRaw = readLine(prefix = "是否使用BMCLAPI/MCBBS镜像源下载资源文件，是请填写mcbbs或bmclapi，否请输入no，留空使用MCBBS镜像源: ") {
-                    listOf("mcbbs", "bmclapi", "no")
-                }
+                    .takeIf { it.isNotEmpty() }
+                val fastModeRaw =
+                    readLine(prefix = "是否使用BMCLAPI/MCBBS镜像源下载资源文件，是请填写mcbbs或bmclapi，否请输入no，留空使用MCBBS镜像源: ") {
+                        listOf("mcbbs", "bmclapi", "no")
+                    }
                 val fastMode = when (fastModeRaw) {
                     "mcbbs", "" -> BMCLAPIUtil.Src.MCBBS
                     "bmclapi" -> BMCLAPIUtil.Src.ORIGINAL
@@ -400,21 +404,23 @@ object RunningManage {
                 } nogui ${tempSettings["LastArgs"]}"
         printf("正在以「$runCommand」为命令开启服务器，服务端类型为${tempSettings["CoreName"]}")
         exitProcess(
-                ProcessBuilder(
-                        sequenceOf(tempSettings["JRELocation"]!!).plus(
-                                ConsoleUtil.splitArguments(tempSettings["FirstArgs"]!!)
-                        ).plus(sequenceOf(
-                                "-Xmx${tempSettings["MaxRAM"]}M",
-                                "-Xms${tempSettings["MinRAM"]}M",
-                                "-jar",
-                                File(
-                                        tempSettings["CoreFileSavedDir"],
-                                        tempSettings["CoreFileName"]!!
-                                ).absolutePath,
-                                "nogui"
-                        ).plus(ConsoleUtil.splitArguments(tempSettings["LastArgs"]!!))).toList()
-                ).directory(File(tempSettings["CoreFileSavedDir"]!!)).inheritIO().start().waitFor()
-                        .also { println("服务端以关闭") }
+            ProcessBuilder(
+                sequenceOf(tempSettings["JRELocation"]!!).plus(
+                    ConsoleUtil.splitArguments(tempSettings["FirstArgs"]!!)
+                ).plus(
+                    sequenceOf(
+                        "-Xmx${tempSettings["MaxRAM"]}M",
+                        "-Xms${tempSettings["MinRAM"]}M",
+                        "-jar",
+                        File(
+                            tempSettings["CoreFileSavedDir"],
+                            tempSettings["CoreFileName"]!!
+                        ).absolutePath,
+                        "nogui"
+                    ).plus(ConsoleUtil.splitArguments(tempSettings["LastArgs"]!!))
+                ).toList()
+            ).directory(File(tempSettings["CoreFileSavedDir"]!!)).inheritIO().start().waitFor()
+                .also { println("服务端已关闭") }
         )
     }
 

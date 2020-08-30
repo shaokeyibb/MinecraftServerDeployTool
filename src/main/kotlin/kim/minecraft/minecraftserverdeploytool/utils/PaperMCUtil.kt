@@ -10,7 +10,7 @@ class PaperMCUtil(project: Project) {
 
     fun getFileName(buildID: String) = "paper-$buildID.jar"
 
-    private fun getAllMinecraftVersions(): JSONArray {
+    fun getAllMinecraftVersions(): JSONArray {
         return JSONObject.parseObject(IOUtil.doSimpleGet(original)).getJSONArray("versions")
     }
 
