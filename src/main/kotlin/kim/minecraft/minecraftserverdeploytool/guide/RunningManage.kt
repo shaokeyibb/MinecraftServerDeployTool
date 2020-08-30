@@ -3,8 +3,12 @@ package kim.minecraft.minecraftserverdeploytool.guide
 import kim.minecraft.minecraftserverdeploytool.Main
 import kim.minecraft.minecraftserverdeploytool.tasks.*
 import kim.minecraft.minecraftserverdeploytool.utils.*
+import kim.minecraft.minecraftserverdeploytool.utils.ConsoleUtil.MyColor
+import kim.minecraft.minecraftserverdeploytool.utils.ConsoleUtil.ColorMode
+import kim.minecraft.minecraftserverdeploytool.utils.ConsoleUtil.color
 import kim.minecraft.minecraftserverdeploytool.utils.ConsoleUtil.printf
 import kim.minecraft.minecraftserverdeploytool.utils.ConsoleUtil.readLine
+import org.fusesource.jansi.Ansi
 import org.yaml.snakeyaml.Yaml
 import java.io.File
 import java.time.ZoneId
@@ -25,7 +29,9 @@ object RunningManage {
             firstRun()
         } catch (e: Exception) {
             e.printStackTrace()
-            println("服务端部署失败，因为" + e.localizedMessage)
+            println(
+                "服务端部署失败 ， 因为 " + e.localizedMessage color MyColor(ColorMode.FG, Ansi.Color.RED)
+            )
         }
     }
 
@@ -33,20 +39,44 @@ object RunningManage {
         try {
             val latestVersion: String = GitHubUtil("shaokeyibb", "MinecraftServerDeployTool").getLatestReleaseTagName()
             if (latestVersion == Main.version) {
-                println("您正在使用最新的发行版本「${Main.version}」，无需更新")
+                printf(
+                    "您正在使用${
+                        "最新的" color MyColor(
+                            ColorMode.BG,
+                            Ansi.Color.GREEN
+                        )
+                    }发行版本「${Main.version color MyColor(ColorMode.FG, Ansi.Color.YELLOW)}」，无需更新"
+                )
             } else {
-                println("您正在使用过时的发行版本「${Main.version}」，当前最新版本是「${latestVersion}」")
+                printf(
+                    "您正在使用${
+                        "过时的" color MyColor(
+                            ColorMode.BG,
+                            Ansi.Color.RED
+                        )
+                    }发行版本「${
+                        Main.version color MyColor(
+                            ColorMode.FG,
+                            Ansi.Color.YELLOW
+                        )
+                    }」，当前最新版本是「${
+                        latestVersion color MyColor(
+                            ColorMode.FGBRIGHT,
+                            Ansi.Color.GREEN
+                        )
+                    }」"
+                )
             }
         } catch (e: java.lang.Exception) {
-            println("由于 ${e.localizedMessage} ，检查更新失败")
+            printf("由于 ${e.localizedMessage color MyColor(ColorMode.FG, Ansi.Color.RED)} ，检查更新失败")
         }
     }
 
     private fun sendBroadcast() {
         try {
-            println(IOUtil.doSimpleGet("https://raw.githubusercontent.com/shaokeyibb/MinecraftServerDeployTool/master/broadcast"))
+            printf(IOUtil.doSimpleGet("https://raw.githubusercontent.com/shaokeyibb/MinecraftServerDeployTool/master/broadcast"))
         } catch (e: java.lang.Exception) {
-            println("由于 ${e.localizedMessage} ，获取公告失败")
+            printf("由于 ${e.localizedMessage color MyColor(ColorMode.FG, Ansi.Color.RED)} ，获取公告失败")
         }
     }
 
@@ -59,7 +89,19 @@ object RunningManage {
     private fun firstRun() {
         printf("检测到第一次运行，启动初始化引导程序......")
         Thread.sleep(2000)
-        printf("Hey，欢迎使用MinecraftServerDeployTools，通过本程序，您可以一键快速构建主流服务端环境并立刻开服!")
+        printf(
+            "Hey，欢迎使用${
+                "MinecraftServerDeployTools" color MyColor(
+                    ColorMode.FG,
+                    Ansi.Color.CYAN
+                )
+            }，通过本程序，您可以${
+                " 一键快速构建主流服务端环境并立刻开服 " color MyColor(
+                    ColorMode.FGBRIGHT,
+                    Ansi.Color.YELLOW
+                )
+            }!"
+        )
         Thread.sleep(2000)
         selectServerCore()
         Thread.sleep(2000)
@@ -73,7 +115,14 @@ object RunningManage {
     private fun selectServerCore() {
         val cores = ServersManage.Servers.values().toList().also {
             printf("可部署核心列表: " + it.asSequence()
-                .mapIndexed { index, servers -> "[${index + 1}]${servers.name} " }
+                .mapIndexed { index, servers ->
+                    "[${
+                        (index + 1).toString() color MyColor(
+                            ColorMode.FG,
+                            Ansi.Color.BLUE
+                        )
+                    }]${servers.name} "
+                }
                 .joinToString(", ")
             )
         }
@@ -82,7 +131,7 @@ object RunningManage {
         }
         val indexed = coreName.toIntOrNull()?.minus(1)
         if ((coreName !in cores.groupBy { it.name }) && (indexed == null || indexed > ServersManage.Servers.values().size)) {
-            printf("输入有误，请检查大小写后重试，或指定服务端不支持部署")
+            printf("输入有误，请检查大小写后重试，或指定服务端不支持部署" color MyColor(ColorMode.FG, Ansi.Color.RED))
             selectServerCore()
             return
         }
@@ -92,7 +141,7 @@ object RunningManage {
             tempSettings["CoreName"] = ServersManage.Servers.valueOf(coreName).name
         }
 
-        printf("您即将部署服务端 ${tempSettings["CoreName"]}")
+        printf("您即将部署服务端 ${tempSettings["CoreName"]!!.color(MyColor(ColorMode.FGBRIGHT, Ansi.Color.GREEN))}")
     }
 
     private fun deployServerCore() {
@@ -179,13 +228,13 @@ object RunningManage {
             }
             "Paper" -> {
                 val paper = PaperMCUtil(PaperMCUtil.Project.PAPER)
-                val versions = paper.getAllMinecraftVersions().also { printf("可用游戏版本: " + it.joinToString(", ")) }
+                val versions = paper.getAllMinecraftVersions().also { printf(("可用游戏版本: " color MyColor(ColorMode.FG,Ansi.Color.CYAN)) + it.joinToString(", ")) }
                 val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载最新版本: ") {
                     versions.map { it.toString() }
                 }.takeIf { it.isNotEmpty() }
                 val buildIDs = paper.let { paperMCUtil ->
                     paperMCUtil.getBuildIDs(version ?: paperMCUtil.latestMinecraftVersion)
-                }.also { printf("可用构建版本: " + it.joinToString(", ")) }
+                }.also { printf(("可用构建版本: " color MyColor(ColorMode.FG,Ansi.Color.CYAN)) + it.joinToString(", ")) }
                 val build = readLine(prefix = "请输入您欲下载的服务端核心构建版本，留空即为下载最新构建:  ") {
                     buildIDs.map { it.toString() }
                 }.takeIf { it.isNotEmpty() }
@@ -301,7 +350,8 @@ object RunningManage {
                     .takeIf { it.isNotEmpty() } ?: "./"
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
                     .takeIf { it.isNotEmpty() }
-                val fastModeRaw = readLine(prefix = "请选择使用的镜像源（mcbbs/bmclapi），留空使用MCBBS镜像源: "){ listOf("mcbbs", "bmclapi") }
+                val fastModeRaw =
+                    readLine(prefix = "请选择使用的镜像源（mcbbs/bmclapi），留空使用MCBBS镜像源: ") { listOf("mcbbs", "bmclapi") }
                 val fastMode = if (fastModeRaw == "bmclapi") BMCLAPIUtil.Src.ORIGINAL else BMCLAPIUtil.Src.MCBBS
                 val cacheDir = readLine(prefix = "请输入您欲部署的服务端资源临时目录，留空则使用默认名称: ").takeIf { it.isNotEmpty() }
                 VanillaFabricDeploy(version, saveDir, fileName, fastMode, cacheDir).runTask().also {
@@ -316,7 +366,8 @@ object RunningManage {
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
                     .takeIf { it.isNotEmpty() }
-                val fastModeRaw = readLine(prefix = "请选择使用的镜像源（mcbbs/bmclapi），留空使用MCBBS镜像源: "){ listOf("mcbbs", "bmclapi") }
+                val fastModeRaw =
+                    readLine(prefix = "请选择使用的镜像源（mcbbs/bmclapi），留空使用MCBBS镜像源: ") { listOf("mcbbs", "bmclapi") }
                 val fastMode = if (fastModeRaw == "bmclapi") BMCLAPIUtil.Src.ORIGINAL else BMCLAPIUtil.Src.MCBBS
                 val cacheDir = readLine(prefix = "请输入您欲部署的服务端资源临时目录，留空则使用默认名称: ").takeIf { it.isNotEmpty() }
                 VanillaForgeDeploy(version, saveDir, fileName, fastMode, cacheDir).runTask().also {
@@ -335,21 +386,21 @@ object RunningManage {
         val jreLocation = readLine(prefix = "请输入您希望使用的Java运行时环境文件(如java.exe)位置，留空则使用「Java」作为运行时文件位置: ")
             .takeIf { it.isNotEmpty() } ?: "Java"
         tempSettings["JRELocation"] = jreLocation
-        printf("参数已被设置为「$jreLocation」")
+        printf("参数已被设置为「${jreLocation color MyColor(ColorMode.FG,Ansi.Color.BLUE)}」")
         val maxRAM = readLine(prefix = "请输入您希望在开服时分配的最大内存，单位MB，留空则使用1024MB: ")
             .takeIf { it.isNotEmpty() && it.toIntOrNull() != null } ?: "1024"
         tempSettings["MaxRAM"] = maxRAM
-        printf("参数已被设置为「$maxRAM」")
+        printf("参数已被设置为「${maxRAM color MyColor(ColorMode.FG,Ansi.Color.BLUE)}」")
         val minRAM = readLine(prefix = "请输入您希望在开服时分配的最小内存，单位MB，留空则与最大内存对等: ")
             .takeIf { it.isNotEmpty() && it.toIntOrNull() != null } ?: maxRAM
         tempSettings["MinRAM"] = minRAM
-        printf("参数已被设置为「$minRAM」")
+        printf("参数已被设置为「${minRAM color MyColor(ColorMode.FG,Ansi.Color.BLUE)}」")
         val firstArgs = readLine(prefix = "请输入您希望加载的Java额外命令行前置参数(JVM参数)，留空则不使用额外参数: ")
         tempSettings["FirstArgs"] = firstArgs
-        printf("参数已被设置为「$firstArgs」")
+        printf("参数已被设置为「${firstArgs color MyColor(ColorMode.FG,Ansi.Color.BLUE)} 」")
         val lastArgs = readLine(prefix = "请输入您希望加载的Java额外命令行后置参数(服务端参数)，留空则不使用额外参数: ")
             .takeIf { it.isNotEmpty() } ?: ""
-        printf("参数已被设置为「$lastArgs」")
+        printf("参数已被设置为「${lastArgs color MyColor(ColorMode.FG,Ansi.Color.BLUE)}」")
         tempSettings["LastArgs"] = lastArgs
         printf("运行参数设置完毕，保存配置中")
         saveSettings()
@@ -385,13 +436,13 @@ object RunningManage {
                         ZoneId.systemDefault()
                     ).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
                 )
-                printf("EULA已同意")
+                printf("EULA已同意" color MyColor(ColorMode.BGBRIGHT, Ansi.Color.GREEN))
                 true
             } else {
                 false
             }
         } else {
-            printf("您已同意EULA，无需再次同意")
+            printf("您已同意EULA，无需再次同意" color MyColor(ColorMode.BGBRIGHT, Ansi.Color.GREEN))
             true
         }
     }
@@ -404,7 +455,14 @@ object RunningManage {
                     tempSettings["CoreFileName"]!!
                 ).absolutePath
             } nogui ${tempSettings["LastArgs"]}"
-        printf("正在以「$runCommand」为命令开启服务器，服务端类型为${tempSettings["CoreName"]}")
+        printf(
+            "正在以「${
+                runCommand color MyColor(
+                    ColorMode.FG,
+                    Ansi.Color.CYAN
+                )
+            }」为命令开启服务器，服务端类型为${tempSettings["CoreName"]}"
+        )
         ConsoleUtil.terminal.close()
         exitProcess(
             ProcessBuilder(
@@ -423,7 +481,7 @@ object RunningManage {
                     ).plus(ConsoleUtil.splitArguments(tempSettings["LastArgs"]!!))
                 ).toList()
             ).directory(File(tempSettings["CoreFileSavedDir"]!!)).inheritIO().start().waitFor()
-                .also { println("服务端已关闭") }
+                .also { println("服务端已正常关闭" color MyColor(ColorMode.FG, Ansi.Color.GREEN)) }
         )
     }
 
@@ -442,7 +500,7 @@ object RunningManage {
         if (agreeEULA()) {
             runServer()
         } else {
-            printf("EULA未同意，退出进程...")
+            printf("EULA未同意，退出进程..." color MyColor(ColorMode.BGBRIGHT, Ansi.Color.RED))
             exitProcess(0)
         }
     }

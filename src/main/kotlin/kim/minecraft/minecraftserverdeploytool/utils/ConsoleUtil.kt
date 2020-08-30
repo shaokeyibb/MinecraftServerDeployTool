@@ -143,5 +143,29 @@ object ConsoleUtil : Completer {
             if (builder.isNotEmpty()) yield(builder.toString())
         }
     }
+
+    infix fun String.color(color: MyColor): String {
+        return when(color.mode){
+            ColorMode.FG->Ansi().fg(color.color).a(this).reset().toString()
+            ColorMode.BG -> Ansi().bg(color.color).a(this).reset().toString()
+            ColorMode.FGBRIGHT -> Ansi().fgBright(color.color).a(this).reset().toString()
+            ColorMode.BGBRIGHT -> Ansi().bgBright(color.color).a(this).reset().toString()
+        }
+    }
+
+    fun colorAfter(color: MyColor): String {
+        return when(color.mode){
+            ColorMode.FG->Ansi().fg(color.color).toString()
+            ColorMode.BG -> Ansi().bg(color.color).toString()
+            ColorMode.FGBRIGHT -> Ansi().fgBright(color.color).toString()
+            ColorMode.BGBRIGHT -> Ansi().bgBright(color.color).toString()
+        }
+    }
+
+    class MyColor(val mode: ColorMode, val color: Ansi.Color)
+
+    enum class ColorMode {
+        FG, BG, FGBRIGHT, BGBRIGHT
+    }
 }
 
