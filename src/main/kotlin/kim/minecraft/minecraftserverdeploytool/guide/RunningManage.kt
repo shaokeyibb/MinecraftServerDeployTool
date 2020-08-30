@@ -73,8 +73,8 @@ object RunningManage {
     private fun selectServerCore() {
         val cores = ServersManage.Servers.values().toList().also {
             printf("可部署核心列表: " + it.asSequence()
-                    .mapIndexed { index, servers -> "[${index + 1}]${servers.name} " }
-                    .joinToString(", ")
+                .mapIndexed { index, servers -> "[${index + 1}]${servers.name} " }
+                .joinToString(", ")
             )
         }
         val coreName = readLine(prefix = "请选择您希望部署的服务端核心名称: ") {
@@ -100,11 +100,11 @@ object RunningManage {
             "Akarin" -> {
                 val normalVersion = "1.16.2"
                 val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载 $normalVersion 版本: ")
-                        .takeIf { it.isNotEmpty() } ?: normalVersion
+                    .takeIf { it.isNotEmpty() } ?: normalVersion
                 val build = readLine(prefix = "请输入您欲下载的服务端核心构建版本，留空即为下载最新构建:  ")
-                        .takeIf { it.isNotEmpty() }
+                    .takeIf { it.isNotEmpty() }
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                        .takeIf { it.isNotEmpty() } ?: "./"
+                    .takeIf { it.isNotEmpty() } ?: "./"
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ").takeIf { it.isNotEmpty() }
                 AkarinDeploy(version, build, saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
@@ -115,11 +115,11 @@ object RunningManage {
             "Arclight" -> {
                 val normalVersion = "1.15.2"
                 val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载 $normalVersion 版本: ")
-                        .takeIf { it.isNotEmpty() } ?: normalVersion
+                    .takeIf { it.isNotEmpty() } ?: normalVersion
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                        .takeIf { it.isNotEmpty() } ?: "./"
+                    .takeIf { it.isNotEmpty() } ?: "./"
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                        .takeIf { it.isNotEmpty() }
+                    .takeIf { it.isNotEmpty() }
                 ArclightDeploy(version, saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
@@ -127,9 +127,9 @@ object RunningManage {
             }
             "CatServer" -> {
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                        .takeIf { it.isNotEmpty() } ?: "./"
+                    .takeIf { it.isNotEmpty() } ?: "./"
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                        .takeIf { it.isNotEmpty() }
+                    .takeIf { it.isNotEmpty() }
                 CatServerDeploy(saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
@@ -137,9 +137,9 @@ object RunningManage {
             }
             "Contigo" -> {
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                        .takeIf { it.isNotEmpty() } ?: "./"
+                    .takeIf { it.isNotEmpty() } ?: "./"
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                        .takeIf { it.isNotEmpty() }
+                    .takeIf { it.isNotEmpty() }
                 ContigoDeploy(saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
@@ -147,11 +147,11 @@ object RunningManage {
             }
             "CraftBukkit" -> {
                 val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载最新版本: ")
-                        .takeIf { it.isNotEmpty() }
+                    .takeIf { it.isNotEmpty() }
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                        .takeIf { it.isNotEmpty() } ?: "./"
+                    .takeIf { it.isNotEmpty() } ?: "./"
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                        .takeIf { it.isNotEmpty() }
+                    .takeIf { it.isNotEmpty() }
                 CraftBukkitDeploy(version, saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
@@ -159,9 +159,9 @@ object RunningManage {
             }
             "Magma" -> {
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                        .takeIf { it.isNotEmpty() } ?: "./"
+                    .takeIf { it.isNotEmpty() } ?: "./"
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                        .takeIf { it.isNotEmpty() }
+                    .takeIf { it.isNotEmpty() }
                 MagmaDeploy(saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
@@ -169,9 +169,9 @@ object RunningManage {
             }
             "Mohist" -> {
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                        .takeIf { it.isNotEmpty() } ?: "./"
+                    .takeIf { it.isNotEmpty() } ?: "./"
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                        .takeIf { it.isNotEmpty() }
+                    .takeIf { it.isNotEmpty() }
                 MohistDeploy(saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
@@ -179,9 +179,7 @@ object RunningManage {
             }
             "Paper" -> {
                 val paper = PaperMCUtil(PaperMCUtil.Project.PAPER)
-                val versions = paper.let { paperMCUtil ->
-                    paperMCUtil.getAllMinecraftVersions()
-                }.also { printf("可用游戏版本: " + it.joinToString(", ")) }
+                val versions = paper.getAllMinecraftVersions().also { printf("可用游戏版本: " + it.joinToString(", ")) }
                 val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载最新版本: ") {
                     versions.map { it.toString() }
                 }.takeIf { it.isNotEmpty() }
@@ -211,11 +209,11 @@ object RunningManage {
             }
             "Spigot" -> {
                 val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载最新版本: ")
-                        .takeIf { it.isNotEmpty() }
+                    .takeIf { it.isNotEmpty() }
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                        .takeIf { it.isNotEmpty() } ?: "./"
+                    .takeIf { it.isNotEmpty() } ?: "./"
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                        .takeIf { it.isNotEmpty() }
+                    .takeIf { it.isNotEmpty() }
                 SpigotDeploy(version, saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
@@ -224,15 +222,16 @@ object RunningManage {
             "SpongeForge" -> {
                 val normalVersion = "1.12.2"
                 val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载 $normalVersion 版本: ")
-                        .takeIf { it.isNotEmpty() } ?: normalVersion
+                    .takeIf { it.isNotEmpty() } ?: normalVersion
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                        .takeIf { it.isNotEmpty() } ?: "./"
+                    .takeIf { it.isNotEmpty() } ?: "./"
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                        .takeIf { it.isNotEmpty() }
-                val fastModeRaw = readLine(prefix = "请选择使用的镜像源（MCBBS/BMCLAPI），留空使用MCBBS镜像源: ")
+                    .takeIf { it.isNotEmpty() }
+                val fastModeRaw =
+                    readLine(prefix = "请选择使用的镜像源（mcbbs/bmclapi），留空使用MCBBS镜像源: ") { listOf("mcbbs", "bmclapi") }
                 val fastMode = if (fastModeRaw == "bmclapi") BMCLAPIUtil.Src.ORIGINAL else BMCLAPIUtil.Src.MCBBS
                 val cacheDir = readLine(prefix = "请输入您欲部署的服务端资源临时目录，留空则使用默认名称: ")
-                        .takeIf { it.isNotEmpty() }
+                    .takeIf { it.isNotEmpty() }
                 SpongeForgeDeploy(version, saveDir, fileName, fastMode, cacheDir).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
@@ -241,12 +240,13 @@ object RunningManage {
             "SpongeVanilla" -> {
                 val normalVersion = "1.12.2"
                 val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载 $normalVersion 版本: ")
-                        .takeIf { it.isNotEmpty() } ?: normalVersion
+                    .takeIf { it.isNotEmpty() } ?: normalVersion
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                        .takeIf { it.isNotEmpty() } ?: "./"
+                    .takeIf { it.isNotEmpty() } ?: "./"
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                        .takeIf { it.isNotEmpty() }
-                val fastModeRaw = readLine(prefix = "请选择使用的镜像源（MCBBS/BMCLAPI），留空使用MCBBS镜像源: ")
+                    .takeIf { it.isNotEmpty() }
+                val fastModeRaw =
+                    readLine(prefix = "请选择使用的镜像源（mcbbs/bmclapi），留空使用MCBBS镜像源: ") { listOf("mcbbs", "bmclapi") }
                 val fastMode = if (fastModeRaw == "bmclapi") BMCLAPIUtil.Src.ORIGINAL else BMCLAPIUtil.Src.MCBBS
                 val cacheDir = readLine(prefix = "请输入您欲部署的服务端资源临时目录，留空则使用默认名称: ").takeIf { it.isNotEmpty() }
                 SpongeVanillaDeploy(version, saveDir, fileName, fastMode, cacheDir).runTask().also {
@@ -256,11 +256,11 @@ object RunningManage {
             }
             "Tuinity" -> {
                 val build = readLine(prefix = "请输入您欲下载的服务端核心构建版本，留空即为下载最新构建:  ")
-                        .takeIf { it.isNotEmpty() }
+                    .takeIf { it.isNotEmpty() }
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                        .takeIf { it.isNotEmpty() } ?: "./"
+                    .takeIf { it.isNotEmpty() } ?: "./"
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                        .takeIf { it.isNotEmpty() }
+                    .takeIf { it.isNotEmpty() }
                 TuinityDeploy(build, saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
@@ -269,9 +269,9 @@ object RunningManage {
             "Uranium" -> {
                 val build = readLine(prefix = "请输入您欲下载的服务端核心构建版本，留空即为下载最新构建:  ")
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                        .takeIf { it.isNotEmpty() } ?: "./"
+                    .takeIf { it.isNotEmpty() } ?: "./"
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                        .takeIf { it.isNotEmpty() }
+                    .takeIf { it.isNotEmpty() }
                 UraniumDeploy(build, saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
@@ -280,12 +280,13 @@ object RunningManage {
             "Vanilla" -> {
                 val normalVersion = "1.16.2"
                 val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载 $normalVersion 版本: ")
-                        .takeIf { it.isNotEmpty() } ?: normalVersion
+                    .takeIf { it.isNotEmpty() } ?: normalVersion
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                        .takeIf { it.isNotEmpty() } ?: "./"
+                    .takeIf { it.isNotEmpty() } ?: "./"
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                        .takeIf { it.isNotEmpty() }
-                val fastModeRaw = readLine(prefix = "请选择使用的镜像源（MCBBS/BMCLAPI），留空使用MCBBS镜像源: ")
+                    .takeIf { it.isNotEmpty() }
+                val fastModeRaw =
+                    readLine(prefix = "请选择使用的镜像源（mcbbs/bmclapi），留空使用MCBBS镜像源: ") { listOf("mcbbs", "bmclapi") }
                 val fastMode = if (fastModeRaw == "bmclapi") BMCLAPIUtil.Src.ORIGINAL else BMCLAPIUtil.Src.MCBBS
                 VanillaDeploy(version, saveDir, fileName, fastMode).runTask().also {
                     tempSettings["CoreFileName"] = it.name
@@ -295,12 +296,12 @@ object RunningManage {
             "VanillaFabric" -> {
                 val normalVersion = "1.16.2"
                 val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载 $normalVersion 版本: ")
-                        .takeIf { it.isNotEmpty() } ?: normalVersion
+                    .takeIf { it.isNotEmpty() } ?: normalVersion
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                        .takeIf { it.isNotEmpty() } ?: "./"
+                    .takeIf { it.isNotEmpty() } ?: "./"
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                        .takeIf { it.isNotEmpty() }
-                val fastModeRaw = readLine(prefix = "请选择使用的镜像源（MCBBS/BMCLAPI），留空使用MCBBS镜像源: ")
+                    .takeIf { it.isNotEmpty() }
+                val fastModeRaw = readLine(prefix = "请选择使用的镜像源（mcbbs/bmclapi），留空使用MCBBS镜像源: "){ listOf("mcbbs", "bmclapi") }
                 val fastMode = if (fastModeRaw == "bmclapi") BMCLAPIUtil.Src.ORIGINAL else BMCLAPIUtil.Src.MCBBS
                 val cacheDir = readLine(prefix = "请输入您欲部署的服务端资源临时目录，留空则使用默认名称: ").takeIf { it.isNotEmpty() }
                 VanillaFabricDeploy(version, saveDir, fileName, fastMode, cacheDir).runTask().also {
@@ -311,11 +312,11 @@ object RunningManage {
             "VanillaForge" -> {
                 val normalVersion = "1.16.2"
                 val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载 $normalVersion 版本: ")
-                        .takeIf { it.isNotEmpty() } ?: normalVersion
+                    .takeIf { it.isNotEmpty() } ?: normalVersion
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                        .takeIf { it.isNotEmpty() }
-                val fastModeRaw = readLine(prefix = "请选择使用的镜像源（MCBBS/BMCLAPI），留空使用MCBBS镜像源: ")
+                    .takeIf { it.isNotEmpty() }
+                val fastModeRaw = readLine(prefix = "请选择使用的镜像源（mcbbs/bmclapi），留空使用MCBBS镜像源: "){ listOf("mcbbs", "bmclapi") }
                 val fastMode = if (fastModeRaw == "bmclapi") BMCLAPIUtil.Src.ORIGINAL else BMCLAPIUtil.Src.MCBBS
                 val cacheDir = readLine(prefix = "请输入您欲部署的服务端资源临时目录，留空则使用默认名称: ").takeIf { it.isNotEmpty() }
                 VanillaForgeDeploy(version, saveDir, fileName, fastMode, cacheDir).runTask().also {
@@ -332,22 +333,22 @@ object RunningManage {
     private fun setRuntimeArgs() {
         printf("接下来，请遵循向导配置您的服务端运行参数")
         val jreLocation = readLine(prefix = "请输入您希望使用的Java运行时环境文件(如java.exe)位置，留空则使用「Java」作为运行时文件位置: ")
-                .takeIf { it.isNotEmpty() } ?: "Java"
+            .takeIf { it.isNotEmpty() } ?: "Java"
         tempSettings["JRELocation"] = jreLocation
         printf("参数已被设置为「$jreLocation」")
         val maxRAM = readLine(prefix = "请输入您希望在开服时分配的最大内存，单位MB，留空则使用1024MB: ")
-                .takeIf { it.isNotEmpty() && it.toIntOrNull() != null } ?: "1024"
+            .takeIf { it.isNotEmpty() && it.toIntOrNull() != null } ?: "1024"
         tempSettings["MaxRAM"] = maxRAM
         printf("参数已被设置为「$maxRAM」")
         val minRAM = readLine(prefix = "请输入您希望在开服时分配的最小内存，单位MB，留空则与最大内存对等: ")
-                .takeIf { it.isNotEmpty() && it.toIntOrNull() != null } ?: maxRAM
+            .takeIf { it.isNotEmpty() && it.toIntOrNull() != null } ?: maxRAM
         tempSettings["MinRAM"] = minRAM
         printf("参数已被设置为「$minRAM」")
         val firstArgs = readLine(prefix = "请输入您希望加载的Java额外命令行前置参数(JVM参数)，留空则不使用额外参数: ")
         tempSettings["FirstArgs"] = firstArgs
         printf("参数已被设置为「$firstArgs」")
         val lastArgs = readLine(prefix = "请输入您希望加载的Java额外命令行后置参数(服务端参数)，留空则不使用额外参数: ")
-                .takeIf { it.isNotEmpty() } ?: ""
+            .takeIf { it.isNotEmpty() } ?: ""
         printf("参数已被设置为「$lastArgs」")
         tempSettings["LastArgs"] = lastArgs
         printf("运行参数设置完毕，保存配置中")
@@ -376,13 +377,13 @@ object RunningManage {
                     it.setProperty("eula", "true")
                 }.store(
 //                        "EULA has been auto-agreed by MinecraftServerDeployTools,
-                        eula.outputStream(),
-                        """
+                    eula.outputStream(),
+                    """
                             EULA has been auto-agreed by MinecraftServerDeployTools
                             the user has been agree Minecraft EULA by our application on 
                         """.trimIndent() + Date().toInstant().atZone(
-                                ZoneId.systemDefault()
-                        ).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                        ZoneId.systemDefault()
+                    ).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
                 )
                 printf("EULA已同意")
                 true
@@ -397,13 +398,14 @@ object RunningManage {
 
     private fun runServer() {
         val runCommand =
-                "${tempSettings["JRELocation"]} ${tempSettings["FirstArgs"]} -Xmx${tempSettings["MaxRAM"]}M -Xms${tempSettings["MinRAM"]}M -jar ${
-                    File(
-                            tempSettings["CoreFileSavedDir"],
-                            tempSettings["CoreFileName"]!!
-                    ).absolutePath
-                } nogui ${tempSettings["LastArgs"]}"
+            "${tempSettings["JRELocation"]} ${tempSettings["FirstArgs"]} -Xmx${tempSettings["MaxRAM"]}M -Xms${tempSettings["MinRAM"]}M -jar ${
+                File(
+                    tempSettings["CoreFileSavedDir"],
+                    tempSettings["CoreFileName"]!!
+                ).absolutePath
+            } nogui ${tempSettings["LastArgs"]}"
         printf("正在以「$runCommand」为命令开启服务器，服务端类型为${tempSettings["CoreName"]}")
+        ConsoleUtil.terminal.close()
         exitProcess(
             ProcessBuilder(
                 sequenceOf(tempSettings["JRELocation"]!!).plus(
@@ -436,7 +438,6 @@ object RunningManage {
     }
 
     private fun commonRun() {
-        ConsoleUtil.terminal.close()
         loadSettings()
         if (agreeEULA()) {
             runServer()
