@@ -1,7 +1,11 @@
 # MinecraftServerDeployTool
 自动化 Minecraft 服务端部署工具/开服器 By Helan_XingChen
 
-![](https://img.shields.io/badge/license-GPL--3.0-orange)
+![](https://img.shields.io/badge/license-GPL--3.0-orange) 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a19111b87e8c4fa095c00a160953d07c)](https://app.codacy.com/manual/shaokeyibb/MinecraftServerDeployTool?utm_source=github.com&utm_medium=referral&utm_content=shaokeyibb/MinecraftServerDeployTool&utm_campaign=Badge_Grade_Dashboard)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/shaokeyibb/MinecraftServerDeployTool)
+![GitHub Releases](https://img.shields.io/github/downloads/shaokeyibb/MinecraftServerDeployTool/latest/total)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/shaokeyibb/MinecraftServerDeployTool)
 > 本工具无法自动下载 Java，因为本工具就是 Java 做的，因此请务必安装好 Java 再使用
 
 ## 特点 Feature
