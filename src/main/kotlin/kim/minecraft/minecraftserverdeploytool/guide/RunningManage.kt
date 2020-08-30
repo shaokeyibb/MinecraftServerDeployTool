@@ -228,13 +228,14 @@ object RunningManage {
             }
             "Paper" -> {
                 val paper = PaperMCUtil(PaperMCUtil.Project.PAPER)
-                val versions = paper.getAllMinecraftVersions().also { printf(("可用游戏版本: " color MyColor(ColorMode.FG,Ansi.Color.CYAN)) + it.joinToString(", ")) }
+                val versions = paper.getAllMinecraftVersions()
+                    .also { printf(("可用游戏版本: " color MyColor(ColorMode.FG, Ansi.Color.CYAN)) + it.joinToString(", ")) }
                 val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载最新版本: ") {
                     versions.map { it.toString() }
                 }.takeIf { it.isNotEmpty() }
                 val buildIDs = paper.let { paperMCUtil ->
                     paperMCUtil.getBuildIDs(version ?: paperMCUtil.latestMinecraftVersion)
-                }.also { printf(("可用构建版本: " color MyColor(ColorMode.FG,Ansi.Color.CYAN)) + it.joinToString(", ")) }
+                }.also { printf(("可用构建版本: " color MyColor(ColorMode.FG, Ansi.Color.CYAN)) + it.joinToString(", ")) }
                 val build = readLine(prefix = "请输入您欲下载的服务端核心构建版本，留空即为下载最新构建:  ") {
                     buildIDs.map { it.toString() }
                 }.takeIf { it.isNotEmpty() }
@@ -386,25 +387,32 @@ object RunningManage {
         val jreLocation = readLine(prefix = "请输入您希望使用的Java运行时环境文件(如java.exe)位置，留空则使用「Java」作为运行时文件位置: ")
             .takeIf { it.isNotEmpty() } ?: "Java"
         tempSettings["JRELocation"] = jreLocation
-        printf("参数已被设置为「${jreLocation color MyColor(ColorMode.FG,Ansi.Color.BLUE)}」")
+        printf("参数已被设置为「${jreLocation color MyColor(ColorMode.FG, Ansi.Color.BLUE)}」")
         val maxRAM = readLine(prefix = "请输入您希望在开服时分配的最大内存，单位MB，留空则使用1024MB: ")
             .takeIf { it.isNotEmpty() && it.toIntOrNull() != null } ?: "1024"
         tempSettings["MaxRAM"] = maxRAM
-        printf("参数已被设置为「${maxRAM color MyColor(ColorMode.FG,Ansi.Color.BLUE)}」")
+        printf("参数已被设置为「${maxRAM color MyColor(ColorMode.FG, Ansi.Color.BLUE)}」")
         val minRAM = readLine(prefix = "请输入您希望在开服时分配的最小内存，单位MB，留空则与最大内存对等: ")
             .takeIf { it.isNotEmpty() && it.toIntOrNull() != null } ?: maxRAM
         tempSettings["MinRAM"] = minRAM
-        printf("参数已被设置为「${minRAM color MyColor(ColorMode.FG,Ansi.Color.BLUE)}」")
+        printf("参数已被设置为「${minRAM color MyColor(ColorMode.FG, Ansi.Color.BLUE)}」")
         val firstArgs = readLine(prefix = "请输入您希望加载的Java额外命令行前置参数(JVM参数)，留空则不使用额外参数: ")
         tempSettings["FirstArgs"] = firstArgs
-        printf("参数已被设置为「${firstArgs color MyColor(ColorMode.FG,Ansi.Color.BLUE)} 」")
+        printf("参数已被设置为「${firstArgs color MyColor(ColorMode.FG, Ansi.Color.BLUE)} 」")
         val lastArgs = readLine(prefix = "请输入您希望加载的Java额外命令行后置参数(服务端参数)，留空则不使用额外参数: ")
             .takeIf { it.isNotEmpty() } ?: ""
-        printf("参数已被设置为「${lastArgs color MyColor(ColorMode.FG,Ansi.Color.BLUE)}」")
+        printf("参数已被设置为「${lastArgs color MyColor(ColorMode.FG, Ansi.Color.BLUE)}」")
         tempSettings["LastArgs"] = lastArgs
         printf("运行参数设置完毕，保存配置中")
         saveSettings()
-        printf("配置文件已保存，您随时可在 ${settings.canonicalPath} 位置找到此配置文件")
+        printf(
+            "配置文件已保存，您随时可在 ${
+                settings.canonicalPath color MyColor(
+                    ColorMode.FG,
+                    Ansi.Color.CYAN
+                )
+            } 位置找到此配置文件"
+        )
     }
 
     private fun isNotAgreeEULA(): Boolean {
@@ -419,7 +427,14 @@ object RunningManage {
     private fun agreeEULA(): Boolean {
         val eula = File(tempSettings["CoreFileSavedDir"], "eula.txt")
         return if (isNotAgreeEULA()) {
-            printf("开服前，您需要同意Minecraft软件用户最终许可协议(EULA)，您可前往 https://account.mojang.com/documents/minecraft_eula 获取EULA全文")
+            printf(
+                "开服前，您需要同意Minecraft软件用户最终许可协议(EULA)，您可前往 ${
+                    "https://account.mojang.com/documents/minecraft_eula" color MyColor(
+                        ColorMode.FG,
+                        Ansi.Color.MAGENTA
+                    )
+                } 获取EULA全文"
+            )
             // No tab here.
             if (readLine(prefix = "如果您同意EULA，请输入「agree」: ") == "agree") {
                 if (!eula.exists()) eula.createNewFile()
