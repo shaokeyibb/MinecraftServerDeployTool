@@ -162,14 +162,11 @@ object RunningManage {
 
             }
             "Arclight" -> {
-                val normalVersion = "1.15.2"
-                val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载 $normalVersion 版本: ")
-                    .takeIf { it.isNotEmpty() } ?: normalVersion
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
                     .takeIf { it.isNotEmpty() } ?: "./"
                 val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
                     .takeIf { it.isNotEmpty() }
-                ArclightDeploy(version, saveDir, fileName).runTask().also {
+                ArclightDeploy(saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
                 }
