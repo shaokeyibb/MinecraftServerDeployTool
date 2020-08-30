@@ -39,6 +39,7 @@
 ## 相关截图 Screenshot
 > 以部署 SpongeForge 为例
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a19111b87e8c4fa095c00a160953d07c)](https://app.codacy.com/manual/shaokeyibb/MinecraftServerDeployTool?utm_source=github.com&utm_medium=referral&utm_content=shaokeyibb/MinecraftServerDeployTool&utm_campaign=Badge_Grade_Dashboard)
 [![d5cyCR.md.png](https://s1.ax1x.com/2020/08/28/d5cyCR.md.png)](https://imgchr.com/i/d5cyCR)
 [![d5cr59.png](https://s1.ax1x.com/2020/08/28/d5cr59.png)](https://imgchr.com/i/d5cr59)
 [![d5cBE4.md.png](https://s1.ax1x.com/2020/08/28/d5cBE4.md.png)](https://imgchr.com/i/d5cBE4)
