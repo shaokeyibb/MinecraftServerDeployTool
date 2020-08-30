@@ -179,16 +179,17 @@ object RunningManage {
             }
             "Paper" -> {
                 val paper = PaperMCUtil(PaperMCUtil.Project.PAPER)
-                paper.let { paperMCUtil ->
+                val versions = paper.let { paperMCUtil ->
                     paperMCUtil.getAllMinecraftVersions()
                 }.also { printf("可用游戏版本: " + it.joinToString(", ")) }
-                val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载最新版本: ")
-                    .takeIf { it.isNotEmpty() }
-                val versions = paper.let { paperMCUtil ->
+                val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载最新版本: ") {
+                    versions.map { it.toString() }
+                }.takeIf { it.isNotEmpty() }
+                val buildIDs = paper.let { paperMCUtil ->
                     paperMCUtil.getBuildIDs(version ?: paperMCUtil.latestMinecraftVersion)
                 }.also { printf("可用构建版本: " + it.joinToString(", ")) }
                 val build = readLine(prefix = "请输入您欲下载的服务端核心构建版本，留空即为下载最新构建:  ") {
-                    versions.map { it.toString() }
+                    buildIDs.map { it.toString() }
                 }.takeIf { it.isNotEmpty() }
                 val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
                     .takeIf { it.isNotEmpty() } ?: "./"
@@ -435,6 +436,7 @@ object RunningManage {
     }
 
     private fun commonRun() {
+        ConsoleUtil.terminal.close()
         loadSettings()
         if (agreeEULA()) {
             runServer()
