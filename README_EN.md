@@ -45,7 +45,7 @@ Automated Minecraft Server-Side Deployment Tools/Openers By Helan_XingChen
 > Deploying SpongeForge as an Example
 
 [![d5cyCR.md.png](https://s1.ax1x.com/2020/08/28/d5cyCR.md.png)](https://www.mcbbs.net/thread-1112127-1-1.html)
-[![d5cr59.png] (https://s1.ax1x.com/2020/08/28/d5cr59.png)](https://www.mcbbs.net/thread-1112127-1-1.html)
+[![d5cr59.png](https://s1.ax1x.com/2020/08/28/d5cr59.png)](https://www.mcbbs.net/thread-1112127-1-1.html)
 [![d5cBE4.md.png](https://s1.ax1x.com/2020/08/28/d5cBE4.md.png)](https://www.mcbbs.net/thread-1112127-1-1.html)
 [![d5cwbF.md.png](https://s1.ax1x.com/2020/08/28/d5cwbF.md.png)](https://www.mcbbs.net/thread-1112127-1-1.html)
 [![d5cDUJ.md.png](https://s1.ax1x.com/2020/08/28/d5cDUJ.md.png)](https://www.mcbbs.net/thread-1112127-1-1.html)
