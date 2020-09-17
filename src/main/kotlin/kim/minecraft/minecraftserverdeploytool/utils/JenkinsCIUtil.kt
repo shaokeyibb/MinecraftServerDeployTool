@@ -36,8 +36,13 @@ class JenkinsCIUtil(
         ).getJSONArray("artifacts")
     }
 
-    fun getFileName(index: Int, buildID: String): String =
-        getArtifacts(buildID).getJSONObject(index).getString("fileName")
+    fun getFileName(index: Int, buildID: String?): String {
+        if (buildID == null) {
+            return getFileName(index)
+        }
+        return getArtifacts(buildID).getJSONObject(index).getString("fileName")
+    }
+
 
     fun getFileName(index: Int): String = getArtifacts().getJSONObject(index).getString("fileName")
 
@@ -50,23 +55,25 @@ class JenkinsCIUtil(
         )
     }
 
-    fun download(index: Int, buildID: String, saveDir: String) {
-        val artifacts = getArtifacts(buildID)
+    fun download(index: Int, saveDir: String, fileName: String) {
+        val artifacts = getArtifacts()
         IOUtil.downloadByHTTPConn(
-            "$baseLink/job/$author/job/$repo/$buildID/artifact/" + artifacts.getJSONObject(
+            "$baseLink/job/$author/job/$repo/lastSuccessfulBuild/artifact/" + artifacts.getJSONObject(
                 index
-            ).getString("relativePath"), getFileName(index, buildID), saveDir
-            , null
+            ).getString("relativePath"), saveDir, fileName, null
         )
     }
 
-    fun download(index: Int, buildID: String, saveDir: String, fileName: String) {
+    fun download(index: Int, buildID: String?, saveDir: String, fileName: String) {
+        if (buildID == null) {
+            download(index, saveDir, fileName)
+            return
+        }
         val artifacts = getArtifacts(buildID)
         IOUtil.downloadByHTTPConn(
             "$baseLink/job/$author/job/$repo/$buildID/artifact/" + artifacts.getJSONObject(
                 index
-            ).getString("relativePath"), saveDir, fileName
-            , null
+            ).getString("relativePath"), saveDir, fileName, null
         )
     }
 

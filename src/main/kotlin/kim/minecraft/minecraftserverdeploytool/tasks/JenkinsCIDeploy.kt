@@ -15,9 +15,8 @@ interface JenkinsCIDeploy : Task {
     override fun run(): File {
         val ci = JenkinsCIUtil(baseLink, author, repo)
         val ind = index ?: 0
-        val buildID = buildID ?: ci.getLatestBuild()
         val fileName = fileName ?: ci.getFileName(ind, buildID)
-        println("开始下载$name，构建版本$buildID")
+        println("开始下载$name，构建版本${buildID ?: ci.getLatestBuild()}")
         ci.download(ind, buildID, saveDir, fileName)
         println("下载完成")
         additionAction()
