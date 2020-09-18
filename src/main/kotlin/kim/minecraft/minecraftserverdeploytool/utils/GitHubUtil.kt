@@ -16,11 +16,11 @@ class GitHubUtil(author: String, repo: String) {
     }
 
     fun getReleaseDownloadLink(tagName: String, index: Int): String {
-        return getAssetsByTagName(tagName,index).getString("browser_download_url")
+        return getAssetsByTagName(tagName, index).getString("browser_download_url")
     }
 
     fun getReleaseDownloadFileName(tagName: String, index: Int): String {
-        return getAssetsByTagName(tagName,index).getString("name")
+        return getAssetsByTagName(tagName, index).getString("name")
     }
 
     private fun getAssets(index: Int): JSONObject {

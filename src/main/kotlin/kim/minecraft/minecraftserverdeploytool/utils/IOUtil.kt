@@ -38,24 +38,24 @@ object IOUtil {
             "User-agent",
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36"
         )
-            conn.inputStream.buffered().use { inputStream ->
-                FileOutputStream(
-                    File(
-                        saveDir,
-                        fileName
-                    ).also {
-                        if (!it.parentFile.exists())
-                            it.parentFile.mkdir()
-                        if (!it.exists())
-                            it.createNewFile()
-                    }).use { fileOutputStream ->
-                    val dataBuffer = ByteArray(1024)
-                    var bytesRead: Int
-                    while (inputStream.read(dataBuffer, 0, 1024).also { bytesRead = it } != -1) {
-                        fileOutputStream.write(dataBuffer, 0, bytesRead)
-                    }
+        conn.inputStream.buffered().use { inputStream ->
+            FileOutputStream(
+                File(
+                    saveDir,
+                    fileName
+                ).also {
+                    if (!it.parentFile.exists())
+                        it.parentFile.mkdir()
+                    if (!it.exists())
+                        it.createNewFile()
+                }).use { fileOutputStream ->
+                val dataBuffer = ByteArray(1024)
+                var bytesRead: Int
+                while (inputStream.read(dataBuffer, 0, 1024).also { bytesRead = it } != -1) {
+                    fileOutputStream.write(dataBuffer, 0, bytesRead)
                 }
             }
+        }
     }
 
     fun doSimpleGet(url: String): String {

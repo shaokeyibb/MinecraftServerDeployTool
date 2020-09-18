@@ -4,7 +4,7 @@ class CraftBukkitDeploy(
     override val version: String?,
     override val saveDir: String,
     override val fileName: String?
-) :ServerJarsDeploy{
+) : ServerJarsDeploy {
     override val type: String = "bukkit"
     override val name: String = "CraftBukkit"
 }

@@ -145,8 +145,8 @@ object ConsoleUtil : Completer {
     }
 
     infix fun String.color(color: MyColor): String {
-        return when(color.mode){
-            ColorMode.FG->Ansi().fg(color.color).a(this).reset().toString()
+        return when (color.mode) {
+            ColorMode.FG -> Ansi().fg(color.color).a(this).reset().toString()
             ColorMode.BG -> Ansi().bg(color.color).a(this).reset().toString()
             ColorMode.FGBRIGHT -> Ansi().fgBright(color.color).a(this).reset().toString()
             ColorMode.BGBRIGHT -> Ansi().bgBright(color.color).a(this).reset().toString()
@@ -154,8 +154,8 @@ object ConsoleUtil : Completer {
     }
 
     fun colorAfter(color: MyColor): String {
-        return when(color.mode){
-            ColorMode.FG->Ansi().fg(color.color).toString()
+        return when (color.mode) {
+            ColorMode.FG -> Ansi().fg(color.color).toString()
             ColorMode.BG -> Ansi().bg(color.color).toString()
             ColorMode.FGBRIGHT -> Ansi().fgBright(color.color).toString()
             ColorMode.BGBRIGHT -> Ansi().bgBright(color.color).toString()

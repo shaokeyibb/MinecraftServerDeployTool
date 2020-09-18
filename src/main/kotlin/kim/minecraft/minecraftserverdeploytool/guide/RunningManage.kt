@@ -3,8 +3,8 @@ package kim.minecraft.minecraftserverdeploytool.guide
 import kim.minecraft.minecraftserverdeploytool.Main
 import kim.minecraft.minecraftserverdeploytool.tasks.*
 import kim.minecraft.minecraftserverdeploytool.utils.*
-import kim.minecraft.minecraftserverdeploytool.utils.ConsoleUtil.MyColor
 import kim.minecraft.minecraftserverdeploytool.utils.ConsoleUtil.ColorMode
+import kim.minecraft.minecraftserverdeploytool.utils.ConsoleUtil.MyColor
 import kim.minecraft.minecraftserverdeploytool.utils.ConsoleUtil.color
 import kim.minecraft.minecraftserverdeploytool.utils.ConsoleUtil.printf
 import kim.minecraft.minecraftserverdeploytool.utils.ConsoleUtil.readLine

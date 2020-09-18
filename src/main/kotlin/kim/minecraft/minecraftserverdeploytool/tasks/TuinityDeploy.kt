@@ -9,6 +9,6 @@ class TuinityDeploy(
     override val author: String = "Spottedleaf"
     override val repo: String = "Tuinity"
     override val name: String = "Tuinity"
-    override val index:Int? = null
+    override val index: Int? = null
 
 }

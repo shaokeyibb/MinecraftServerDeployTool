@@ -27,6 +27,6 @@ class UraniumDeploy(
         ZipFile(file).extractAll(saveDir)
         println("解压完成")
         file.delete()
-        File(saveDir,"kBootstrapX.reposList").delete()
+        File(saveDir, "kBootstrapX.reposList").delete()
     }
 }

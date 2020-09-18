@@ -11,7 +11,7 @@ interface JenkinsCIDeploy : Task {
     val buildID: String?
     val saveDir: String
     val fileName: String?
-    val index:Int?
+    val index: Int?
     override fun run(): File {
         val ci = JenkinsCIUtil(baseLink, author, repo)
         val ind = index ?: 0

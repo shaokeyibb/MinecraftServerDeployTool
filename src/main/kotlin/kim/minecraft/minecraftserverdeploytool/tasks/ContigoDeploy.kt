@@ -15,11 +15,11 @@ class ContigoDeploy(
     override val name: String = "Contigo"
     override val index: Int? = 0
     override fun additionAction() {
-        val github = GitHubUtil("djoveryde","Contigo")
+        val github = GitHubUtil("djoveryde", "Contigo")
         val ind = 1
         val fileNa = github.getLatestReleaseDownloadFileName(ind)
         println("开始下载资源文件，版本${github.getLatestReleaseTagName()}")
-        IOUtil.downloadByNIO2(github.getLatestReleaseDownloadLink(ind),saveDir,fileNa)
+        IOUtil.downloadByNIO2(github.getLatestReleaseDownloadLink(ind), saveDir, fileNa)
         val file = File(saveDir, fileNa)
         println("下载完成")
         println("开始解压资源文件...")
