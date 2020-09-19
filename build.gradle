@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'kim.minecraft'
-version '1.5-SNAPSHOT'
+version '2.0-SNAPSHOT'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'

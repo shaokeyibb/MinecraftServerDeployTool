@@ -30,7 +30,7 @@ object RunningManage {
         } catch (e: Exception) {
             e.printStackTrace()
             println(
-                "服务端部署失败 ， 因为 " + e.localizedMessage color MyColor(ColorMode.FG, Ansi.Color.RED)
+                "服务端部署失败 ， 因为 ${e.toString() color MyColor(ColorMode.FG, Ansi.Color.RED)}"
             )
         }
     }
@@ -68,7 +68,7 @@ object RunningManage {
                 )
             }
         } catch (e: java.lang.Exception) {
-            printf("由于 ${e.localizedMessage color MyColor(ColorMode.FG, Ansi.Color.RED)} ，检查更新失败")
+            printf("由于 ${e.toString() color MyColor(ColorMode.FG, Ansi.Color.RED)} ，检查更新失败")
         }
     }
 
@@ -76,7 +76,7 @@ object RunningManage {
         try {
             printf(IOUtil.doSimpleGet("https://raw.githubusercontent.com/shaokeyibb/MinecraftServerDeployTool/master/broadcast"))
         } catch (e: java.lang.Exception) {
-            printf("由于 ${e.localizedMessage color MyColor(ColorMode.FG, Ansi.Color.RED)} ，获取公告失败")
+            printf("由于 ${e.toString() color MyColor(ColorMode.FG, Ansi.Color.RED)} ，获取公告失败")
         }
     }
 
@@ -148,13 +148,10 @@ object RunningManage {
         when (tempSettings["CoreName"]) {
             "Akarin" -> {
                 val normalVersion = "1.16.2"
-                val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载 $normalVersion 版本: ")
-                    .takeIf { it.isNotEmpty() } ?: normalVersion
-                val build = readLine(prefix = "请输入您欲下载的服务端核心构建版本，留空即为下载最新构建:  ")
-                    .takeIf { it.isNotEmpty() }
-                val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                    .takeIf { it.isNotEmpty() } ?: "./"
-                val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ").takeIf { it.isNotEmpty() }
+                val version = askForServerCoreVersion(normalVersion)
+                val build = askForServerCoreBuildVersion()
+                val saveDir = askForSaveDir()
+                val fileName = askForFileName()
                 AkarinDeploy(version, build, saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
@@ -162,62 +159,49 @@ object RunningManage {
 
             }
             "Arclight" -> {
-                val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                    .takeIf { it.isNotEmpty() } ?: "./"
-                val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                    .takeIf { it.isNotEmpty() }
+                val saveDir = askForSaveDir()
+                val fileName = askForFileName()
                 ArclightDeploy(saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
                 }
             }
             "CatServer" -> {
-                val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                    .takeIf { it.isNotEmpty() } ?: "./"
-                val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                    .takeIf { it.isNotEmpty() }
+                val saveDir = askForSaveDir()
+                val fileName = askForFileName()
                 CatServerDeploy(saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
                 }
             }
             "Contigo" -> {
-                val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                    .takeIf { it.isNotEmpty() } ?: "./"
-                val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                    .takeIf { it.isNotEmpty() }
+                val saveDir = askForSaveDir()
+                val fileName = askForFileName()
                 ContigoDeploy(saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
                 }
             }
             "CraftBukkit" -> {
-                val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载最新版本: ")
-                    .takeIf { it.isNotEmpty() }
-                val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                    .takeIf { it.isNotEmpty() } ?: "./"
-                val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                    .takeIf { it.isNotEmpty() }
+                val version = askForServerCoreVersion()
+                val saveDir = askForSaveDir()
+                val fileName = askForFileName()
                 CraftBukkitDeploy(version, saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
                 }
             }
             "Magma" -> {
-                val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                    .takeIf { it.isNotEmpty() } ?: "./"
-                val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                    .takeIf { it.isNotEmpty() }
+                val saveDir = askForSaveDir()
+                val fileName = askForFileName()
                 MagmaDeploy(saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
                 }
             }
             "Mohist" -> {
-                val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                    .takeIf { it.isNotEmpty() } ?: "./"
-                val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                    .takeIf { it.isNotEmpty() }
+                val saveDir = askForSaveDir()
+                val fileName = askForFileName()
                 MohistDeploy(saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
@@ -227,24 +211,14 @@ object RunningManage {
                 val paper = PaperMCUtil(PaperMCUtil.Project.PAPER)
                 val versions = paper.getAllMinecraftVersions()
                     .also { printf(("可用游戏版本: " color MyColor(ColorMode.FG, Ansi.Color.CYAN)) + it.joinToString(", ")) }
-                val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载最新版本: ") {
-                    versions.map { it.toString() }
-                }.takeIf { it.isNotEmpty() }
+                val version = askForServerCoreVersion { versions.map { it.toString() } }
                 val buildIDs = paper.let { paperMCUtil ->
                     paperMCUtil.getBuildIDs(version ?: paperMCUtil.latestMinecraftVersion)
                 }.also { printf(("可用构建版本: " color MyColor(ColorMode.FG, Ansi.Color.CYAN)) + it.joinToString(", ")) }
-                val build = readLine(prefix = "请输入您欲下载的服务端核心构建版本，留空即为下载最新构建:  ") {
-                    buildIDs.map { it.toString() }
-                }.takeIf { it.isNotEmpty() }
-                val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                    .takeIf { it.isNotEmpty() } ?: "./"
-                val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                    .takeIf { it.isNotEmpty() }
-                val fastModeRaw =
-                    readLine(prefix = "是否使用BMCLAPI/MCBBS镜像源下载资源文件，是请填写mcbbs或bmclapi，否请输入no，留空使用MCBBS镜像源: ") {
-                        listOf("mcbbs", "bmclapi", "no")
-                    }
-                val fastMode = when (fastModeRaw) {
+                val build = askForServerCoreBuildVersion { buildIDs.map { it.toString() } }
+                val saveDir = askForSaveDir()
+                val fileName = askForFileName()
+                val fastMode = when (askForDoUseBMCLAPIWithNo()) {
                     "mcbbs", "" -> BMCLAPIUtil.Src.MCBBS
                     "bmclapi" -> BMCLAPIUtil.Src.ORIGINAL
                     else -> null
@@ -255,12 +229,9 @@ object RunningManage {
                 }
             }
             "Spigot" -> {
-                val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载最新版本: ")
-                    .takeIf { it.isNotEmpty() }
-                val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                    .takeIf { it.isNotEmpty() } ?: "./"
-                val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                    .takeIf { it.isNotEmpty() }
+                val version = askForServerCoreVersion()
+                val saveDir = askForSaveDir()
+                val fileName = askForFileName()
                 SpigotDeploy(version, saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
@@ -268,17 +239,12 @@ object RunningManage {
             }
             "SpongeForge" -> {
                 val normalVersion = "1.12.2"
-                val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载 $normalVersion 版本: ")
-                    .takeIf { it.isNotEmpty() } ?: normalVersion
-                val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                    .takeIf { it.isNotEmpty() } ?: "./"
-                val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                    .takeIf { it.isNotEmpty() }
-                val fastModeRaw =
-                    readLine(prefix = "请选择使用的镜像源（mcbbs/bmclapi），留空使用MCBBS镜像源: ") { listOf("mcbbs", "bmclapi") }
+                val version = askForServerCoreVersion(normalVersion)
+                val saveDir = askForSaveDir()
+                val fileName = askForFileName()
+                val fastModeRaw = askForDoUseBMCLAPI()
                 val fastMode = if (fastModeRaw == "bmclapi") BMCLAPIUtil.Src.ORIGINAL else BMCLAPIUtil.Src.MCBBS
-                val cacheDir = readLine(prefix = "请输入您欲部署的服务端资源临时目录，留空则使用默认名称: ")
-                    .takeIf { it.isNotEmpty() }
+                val cacheDir = askForCacheDir()
                 SpongeForgeDeploy(version, saveDir, fileName, fastMode, cacheDir).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
@@ -286,39 +252,30 @@ object RunningManage {
             }
             "SpongeVanilla" -> {
                 val normalVersion = "1.12.2"
-                val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载 $normalVersion 版本: ")
-                    .takeIf { it.isNotEmpty() } ?: normalVersion
-                val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                    .takeIf { it.isNotEmpty() } ?: "./"
-                val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                    .takeIf { it.isNotEmpty() }
-                val fastModeRaw =
-                    readLine(prefix = "请选择使用的镜像源（mcbbs/bmclapi），留空使用MCBBS镜像源: ") { listOf("mcbbs", "bmclapi") }
+                val version = askForServerCoreVersion(normalVersion)
+                val saveDir = askForSaveDir()
+                val fileName = askForFileName()
+                val fastModeRaw = askForDoUseBMCLAPI()
                 val fastMode = if (fastModeRaw == "bmclapi") BMCLAPIUtil.Src.ORIGINAL else BMCLAPIUtil.Src.MCBBS
-                val cacheDir = readLine(prefix = "请输入您欲部署的服务端资源临时目录，留空则使用默认名称: ").takeIf { it.isNotEmpty() }
+                val cacheDir = askForCacheDir()
                 SpongeVanillaDeploy(version, saveDir, fileName, fastMode, cacheDir).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
                 }
             }
             "Tuinity" -> {
-                val build = readLine(prefix = "请输入您欲下载的服务端核心构建版本，留空即为下载最新构建:  ")
-                    .takeIf { it.isNotEmpty() }
-                val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                    .takeIf { it.isNotEmpty() } ?: "./"
-                val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                    .takeIf { it.isNotEmpty() }
+                val build = askForServerCoreBuildVersion()
+                val saveDir = askForSaveDir()
+                val fileName = askForFileName()
                 TuinityDeploy(build, saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
                 }
             }
             "Uranium" -> {
-                val build = readLine(prefix = "请输入您欲下载的服务端核心构建版本，留空即为下载最新构建:  ")
-                val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                    .takeIf { it.isNotEmpty() } ?: "./"
-                val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                    .takeIf { it.isNotEmpty() }
+                val build = askForServerCoreBuildVersion()
+                val saveDir = askForSaveDir()
+                val fileName = askForFileName()
                 UraniumDeploy(build, saveDir, fileName).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
@@ -326,14 +283,10 @@ object RunningManage {
             }
             "Vanilla" -> {
                 val normalVersion = "1.16.2"
-                val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载 $normalVersion 版本: ")
-                    .takeIf { it.isNotEmpty() } ?: normalVersion
-                val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                    .takeIf { it.isNotEmpty() } ?: "./"
-                val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                    .takeIf { it.isNotEmpty() }
-                val fastModeRaw =
-                    readLine(prefix = "请选择使用的镜像源（mcbbs/bmclapi），留空使用MCBBS镜像源: ") { listOf("mcbbs", "bmclapi") }
+                val version = askForServerCoreVersion(normalVersion)
+                val saveDir = askForSaveDir()
+                val fileName = askForFileName()
+                val fastModeRaw = askForDoUseBMCLAPI()
                 val fastMode = if (fastModeRaw == "bmclapi") BMCLAPIUtil.Src.ORIGINAL else BMCLAPIUtil.Src.MCBBS
                 VanillaDeploy(version, saveDir, fileName, fastMode).runTask().also {
                     tempSettings["CoreFileName"] = it.name
@@ -342,16 +295,12 @@ object RunningManage {
             }
             "VanillaFabric" -> {
                 val normalVersion = "1.16.2"
-                val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载 $normalVersion 版本: ")
-                    .takeIf { it.isNotEmpty() } ?: normalVersion
-                val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                    .takeIf { it.isNotEmpty() } ?: "./"
-                val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                    .takeIf { it.isNotEmpty() }
-                val fastModeRaw =
-                    readLine(prefix = "请选择使用的镜像源（mcbbs/bmclapi），留空使用MCBBS镜像源: ") { listOf("mcbbs", "bmclapi") }
+                val version = askForServerCoreVersion(normalVersion)
+                val saveDir = askForSaveDir()
+                val fileName = askForFileName()
+                val fastModeRaw = askForDoUseBMCLAPI()
                 val fastMode = if (fastModeRaw == "bmclapi") BMCLAPIUtil.Src.ORIGINAL else BMCLAPIUtil.Src.MCBBS
-                val cacheDir = readLine(prefix = "请输入您欲部署的服务端资源临时目录，留空则使用默认名称: ").takeIf { it.isNotEmpty() }
+                val cacheDir = askForCacheDir()
                 VanillaFabricDeploy(version, saveDir, fileName, fastMode, cacheDir).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
@@ -359,15 +308,12 @@ object RunningManage {
             }
             "VanillaForge" -> {
                 val normalVersion = "1.16.2"
-                val version = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载 $normalVersion 版本: ")
-                    .takeIf { it.isNotEmpty() } ?: normalVersion
-                val saveDir = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
-                val fileName = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ")
-                    .takeIf { it.isNotEmpty() }
-                val fastModeRaw =
-                    readLine(prefix = "请选择使用的镜像源（mcbbs/bmclapi），留空使用MCBBS镜像源: ") { listOf("mcbbs", "bmclapi") }
+                val version = askForServerCoreVersion(normalVersion)
+                val saveDir = askForSaveDir()
+                val fileName = askForFileName()
+                val fastModeRaw = askForDoUseBMCLAPI()
                 val fastMode = if (fastModeRaw == "bmclapi") BMCLAPIUtil.Src.ORIGINAL else BMCLAPIUtil.Src.MCBBS
-                val cacheDir = readLine(prefix = "请输入您欲部署的服务端资源临时目录，留空则使用默认名称: ").takeIf { it.isNotEmpty() }
+                val cacheDir = askForCacheDir()
                 VanillaForgeDeploy(version, saveDir, fileName, fastMode, cacheDir).runTask().also {
                     tempSettings["CoreFileName"] = it.name
                     tempSettings["CoreFileSavedDir"] = it.parentFile.absolutePath ?: "./"
@@ -378,6 +324,39 @@ object RunningManage {
             }
         }
     }
+
+    private fun askForCacheDir(): String? =
+        readLine(prefix = "请输入您欲部署的服务端资源临时目录，留空则使用默认名称: ").takeIf { it.isNotEmpty() }
+
+    private fun askForDoUseBMCLAPI(): String =
+        readLine(prefix = "请选择使用的镜像源（mcbbs/bmclapi），留空使用MCBBS镜像源: ") { listOf("mcbbs", "bmclapi") }
+
+    private fun askForDoUseBMCLAPIWithNo(): String {
+        return readLine(prefix = "是否使用BMCLAPI/MCBBS镜像源下载资源文件，是请填写mcbbs或bmclapi，否请输入no，留空使用MCBBS镜像源: ") {
+            listOf("mcbbs", "bmclapi", "no")
+        }
+    }
+
+    private fun askForServerCoreVersion(): String? = readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载最新版本: ")
+        .takeIf { it.isNotEmpty() }
+
+    private fun askForFileName(): String? = readLine(prefix = "请输入您欲部署的服务端核心保存文件名，留空即为原名称: ").takeIf { it.isNotEmpty() }
+
+    private fun askForSaveDir(): String = readLine(prefix = "请输入您欲部署到的目录，留空即为当前目录: ")
+        .takeIf { it.isNotEmpty() } ?: "./"
+
+    private fun askForServerCoreBuildVersion(): String? =
+        readLine(prefix = "请输入您欲下载的服务端核心构建版本，留空即为下载最新构建:  ").takeIf { it.isNotEmpty() }
+
+    private fun askForServerCoreBuildVersion(tabs: () -> Collection<String>): String? =
+        readLine(prefix = "请输入您欲下载的服务端核心构建版本，留空即为下载最新构建:  ", tabs).takeIf { it.isNotEmpty() }
+
+    private fun askForServerCoreVersion(normalVersion: String): String =
+        readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载 $normalVersion 版本: ")
+            .takeIf { it.isNotEmpty() } ?: normalVersion
+
+    private fun askForServerCoreVersion(tabs: () -> Collection<String>): String? =
+        readLine(prefix = "请输入您欲下载的服务端核心游戏版本，留空即为下载最新版本: ", tabs).takeIf { it.isNotEmpty() }
 
     private fun setRuntimeArgs() {
         printf("接下来，请遵循向导配置您的服务端运行参数")
