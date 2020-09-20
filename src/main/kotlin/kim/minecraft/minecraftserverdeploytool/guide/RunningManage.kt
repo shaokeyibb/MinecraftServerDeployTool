@@ -130,15 +130,32 @@ object RunningManage {
             cores.map { it.name }
         }
         val indexed = coreName.toIntOrNull()?.minus(1)
-        if ((coreName !in cores.groupBy { it.name }) && (indexed == null || indexed > ServersManage.Servers.values().size)) {
-            printf("输入有误，请检查大小写后重试，或指定服务端不支持部署" color MyColor(ColorMode.FG, Ansi.Color.RED))
+        fun findCores(coreName: String): String? {
+            var field: String? = null
+            cores.groupBy { it.name }.keys.toList().run {
+                mutableListOf<String>().apply {
+                    this@run.forEach {
+                        this.add(
+                            it.toLowerCase()
+                        )
+                    }
+                    if (coreName.toLowerCase() in this) field = this@run[this.indexOf(coreName.toLowerCase())]
+                }
+            }
+            return field
+        }
+
+        val coreName0 = findCores(coreName)
+        if (coreName0 == null && (indexed == null || indexed > ServersManage.Servers.values().size)
+        ) {
+            printf("输入有误，请检查写入内容后重试，或指定服务端不支持部署" color MyColor(ColorMode.FG, Ansi.Color.RED))
             selectServerCore()
             return
         }
         if (indexed != null) {
             tempSettings["CoreName"] = cores[indexed].name
         } else {
-            tempSettings["CoreName"] = ServersManage.Servers.valueOf(coreName).name
+            tempSettings["CoreName"] = coreName0!!
         }
 
         printf("您即将部署服务端 ${tempSettings["CoreName"]!!.color(MyColor(ColorMode.FGBRIGHT, Ansi.Color.GREEN))}")
