@@ -377,8 +377,8 @@ object RunningManage {
 
     private fun setRuntimeArgs() {
         printf("接下来，请遵循向导配置您的服务端运行参数")
-        val jreLocation = readLine(prefix = "请输入您希望使用的Java运行时环境文件(如java.exe)位置，留空则使用「Java」作为运行时文件位置: ")
-            .takeIf { it.isNotEmpty() } ?: "Java"
+        val jreLocation = readLine(prefix = "请输入您希望使用的Java运行时环境文件(如java.exe)位置，留空则使用「java」作为运行时文件位置: ")
+            .takeIf { it.isNotEmpty() } ?: "java"
         tempSettings["JRELocation"] = jreLocation
         printf("参数已被设置为「${jreLocation color MyColor(ColorMode.FG, Ansi.Color.BLUE)}」")
         val maxRAM = readLine(prefix = "请输入您希望在开服时分配的最大内存，单位MB，留空则使用1024MB: ")
