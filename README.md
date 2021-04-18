@@ -6,7 +6,7 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/shaokeyibb/MinecraftServerDeployTool)
 ![GitHub Releases](https://img.shields.io/github/downloads/shaokeyibb/MinecraftServerDeployTool/latest/total)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/shaokeyibb/MinecraftServerDeployTool)
-> ~~本工具无法自动下载 Java，因为本工具就是 Java 做的，因此请务必安装好 Java 再使用~~
+> ~~本工具无法自动下载 Java，因为本工具就是 Java 做的，因此请务必安装好 Java 再使用~~  
 > RHEL和Debian系Linux发行版可直接使用Start.sh脚本，包含安装openjdk和下载此项目并运行
 
 ## 特点 Feature
